@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv='Content-Type content="text/html; charset=utf-8"'>
+<LINK href="__PUBLIC__/css/admin.css" type="text/css" rel="stylesheet">
+<style>
+.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
+.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
+.right3{font-size:14px;}
+
+</style>
+<title>{:C('SITE_SUBJECT')}</title></HEAD>
+<BODY>
+<TABLE cellSpacing='0' cellPadding='0' width="100%" align='center' border='0' style="border:1px #9AD452 solid; background-color:##F3FFE3; margin-left:0px;"  height='100%'>
+  <TR>
+    <TD valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="62" style="background-image:url(__PUBLIC__/images/right-bj.gif)">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="480" valign="top" bgcolor="#F3FFE3"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+              <td valign="top"><table width="760" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="40" valign="top" class="right1">欢迎登陆 {:C('SITE_SUBJECT')}！</td>
+                </tr>
+                <tr>
+                  <td style="line-height:300%;">
+				  <p>
+				  <volist name="list" id="vo">
+					<strong><eq name="user_kind" value="301010">{$vo.town_name}<else/><eq name="user_kind" value="301020">{$vo.school_type_name}<else/>{$vo.school_name}</eq></eq></strong>上报数据 <a href="<eq name="user_kind" value="301010">{:U('Main/infolist',array('town_id'=>$vo[town_id]))}<else/><eq name="user_kind" value="301020">{:U('Main/infolist',array('school_type'=>$vo[school_type]))}<else/>{:U('Main/infolist',array('school_id'=>$vo[school_id]))}</eq></eq>" class="ling">{$vo.total}</a> 条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<if condition="$key % 4 eq 3"></p><p></if>
+				  </volist>
+				  </p>
+				  　　    </td>
+                </tr>
+              </table>
+                <table width="760" border="0" cellspacing="0" cellpadding="0">
+                  <tr> </tr>
+                  <tr>
+                    <td height="80"><a href="{:U('Main/addInfo')}"><img src="__PUBLIC__/images/sbsj0.gif" width="136" height="40" border="0"></a> <if condition="$town_id neq 0 AND $user_kind eq '301010' OR $user_kind eq '301020' "><a href="{:U('Main/collect',array('town'=>$town_id))}"><img src="__PUBLIC__/images/sjhz0.gif" width="136" height="40" border="0"></a></if> <a href="{:U('Main/contrast',array('town'=>$town_id))}"><img src="__PUBLIC__/images/sjdb0.gif" width="136" height="40" border="0"></a> <a href="{:U('Main/orderby',array('town'=>$town_id))}"><img src="__PUBLIC__/images/sjpx0.gif" width="136" height="40" border="0"></a><eq name="user_kind" value="301010"><if condition="$town_id eq 0 ">&nbsp;<a href="{:U('Main/collect',array('ac'=>'TownYearCollect'))}"><img src="__PUBLIC__/images/townYearCollectButton.jpg" width="136" height="40" border="0"></a></if></eq></td>
+                    </tr>
+                </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></TD></TR>
+  <TR>
+    <TD bgColor='#b1ceef' height='1'></TD></TR>
+</TABLE></BODY></HTML>

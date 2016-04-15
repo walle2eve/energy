@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv='Content-Type content="text/html; charset=utf-8"'>
+<LINK href="__PUBLIC__/css/admin.css" type="text/css" rel="stylesheet">
+<title>查看已上报的数据——{:C('SITE_SUBJECT')}</title>
+<style>
+input {border:0px solid #c00;} 
+.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
+.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
+.right3{font-size:14px;}
+#submitbtn{ cursor:pointer; }
+</style>
+</HEAD>
+<BODY>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align='center' border=0 style="border:1px #9AD452 solid; background-color:##F3FFE3; margin-left:0px;"  height='100%'>
+  <TR>
+    <TD valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="62" style="background-image:url(__PUBLIC__/images/right-bj.gif)"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="28"><img src="__PUBLIC__/images/right0.gif" width="16" height="13"></td>
+            <td style="color:#43860C; font-size:16px; font-weight:bold;">北京市教委能源资源消耗数据查看</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="480" valign="top" bgcolor="#F3FFE3"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td height="16" bgcolor="#FFFFFF">&nbsp;
+            </td>
+          </tr>
+        </table>
+
+          <table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td align="left" bgcolor="#FFFFFF"><table width="840" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="30" colspan="2" align="right">区县：
+					<input type="text" style="width:200px;" value="{$info.town_name}" readonly="readonly">
+					</td>
+                  <td colspan="2" align="right">办学类型：
+                    <label>
+					<input type="text" style="width:200px;" value="{$info.school_type_name}" readonly="readonly">
+
+                    </label>
+					</td>
+                </tr>
+                <tr>
+                  <td height="30" colspan="2" align="right">学校名称：
+					<input type="text" style="width:200px;" value="{$info.school_name}" readonly="readonly">
+					</td>
+                  <td colspan="2" align="right">学校标识码：
+                    <label>
+					<input type="text" value = '{$info.school_code}' style="width:200px;" readonly="readonly">
+                    </label>
+					</td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">数据上报时间：
+
+					<input type="text" value = '{$info.yearStr}' style=" width:200px;" readonly="readonly">
+
+					</td>
+                  <td colspan="2" align="right">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">建筑面积（万平方米）：
+                    <label>
+                      <input type="text" name="info_101001" id="info_101001"  style=" width:200px;" value="{$info.info_101001}" readonly="readonly">
+                      <br>
+                   <span  style="color:#999999;"> 建筑面积不包含教师住宅的住宅面积</span></label></td>
+                  <td align="right">液化石油气消耗量（吨）：
+                    <input type="text" name="info_101018" id="info_101018"   style=" width:80px;"  value="{$info.info_101018}" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101019" id="info_101019"   style=" width:80px;"  value="{$info.info_101019}" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">用能教师数（人）：
+                    <input type="text" name="info_101002" id="info_101002"   style=" width:200px;"  value="{$info.info_101002}" readonly="readonly"></td>
+                  <td align="right">人工煤气消耗量（万升）：
+                    <input type="text" name="info_101020" id="info_101020"  value="{$info.info_101020}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101021" id="info_101021"  value="{$info.info_101021}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">用能学生数（人）：
+                    <input type="text" name="info_101003" id="info_101003"  value="{$info.info_101003}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">汽油消耗量（万升）：
+                    <input type="text" name="info_101022" id="info_101022"  value="{$info.info_101022}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101023" id="info_101023"  value="{$info.info_101023}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">基中 编制人数（人）：
+                    <input type="text" name="info_101004" id="info_101004"  value="{$info.info_101004}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">其中 车辆用油量（万升）：
+                    <input type="text" name="info_101024" id="info_101024"  value="{$info.info_101024}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101025" id="info_101025"  value="{$info.info_101025}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">公车数量（辆）：
+                    <input type="text" name="info_101005" id="info_101005"  value="{$info.info_101005}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">其他用油（万升）：
+                    <input type="text" name="info_101026" id="info_101026"  value="{$info.info_101026}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101027" id="info_101027"  value="{$info.info_101027}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">其中 编制数量（辆）：
+                    <input type="text" name="info_101006" id="info_101006"  value="{$info.info_101006}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">柴油消耗量（万升）：
+                    <input type="text" name="info_101028" id="info_101028"  value="{$info.info_101028}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101029" id="info_101029"  value="{$info.info_101029}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">汽油车数量（辆）：
+                    <input type="text" name="info_101007" id="info_101007"  value="{$info.info_101007}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">其中 车辆用油量（万升）：
+                    <input type="text" name="info_101030" id="info_101030"  value="{$info.info_101030}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101031" id="info_101031"  value="{$info.info_101031}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td height="28" colspan="2" align="right">柴油车数量（辆）：
+                    <input type="text" name="info_101008" id="info_101008"  value="{$info.info_101008}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">其他用油（万升）：
+                    <input type="text" name="info_101032" id="info_101032"  value="{$info.info_101032}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101033" id="info_101033"  value="{$info.info_101033}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" align="right">新能源车数量（辆）：
+                    <input type="text" name="info_101009" id="info_101009"  value="{$info.info_101009}"  style=" width:200px;" readonly="readonly"></td>
+                  <td align="right">煤油消耗量（万升）：
+                    <input type="text" name="info_101034" id="info_101034"  value="{$info.info_101034}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101035" id="info_101035"  value="{$info.info_101035}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">总用电量（万千瓦时）：
+                    <input type="text" name="info_101010" id="info_101010"  value="{$info.info_101010}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101011" id="info_101011"  value="{$info.info_101011}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">热力消耗量（万千焦耳）：
+                    <input type="text" name="info_101036" id="info_101036"  value="{$info.info_101036}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101037" id="info_101037"  value="{$info.info_101037}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">机房用电量（万千瓦时）：
+                    <input type="text" name="info_101042" id="info_101042"  value="{$info.info_101042}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101043" id="info_101043"  value="{$info.info_101043}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">供暖面积（万平方米）：
+                    <input type="text" name="info_101038" id="info_101038"  value="{$info.info_101038}"  style=" width:80px;" readonly="readonly">
+                    <br>
+                    <span style="color:#666666;">供暖面积不包含教师住宅面积</span></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101039" id="info_101039"   value="{$info.info_101039}" style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">市电用电量（万千瓦时）：
+                    <input type="text" name="info_101044" id="info_101044"  value="{$info.info_101044}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101045" id="info_101045"  value="{$info.info_101045}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">太阳能、水力风力等发电量（万千瓦时）：
+                    <input type="text" name="info_101046" id="info_101046"  value="{$info.info_101046}"  style=" width:80px;" readonly="readonly">
+					</td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101047" id="info_101047"   value="{$info.info_101047}" style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">水消耗量（万吨）：
+                    <input type="text" name="info_101012" id="info_101012"  value="{$info.info_101012}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101013" id="info_101013"  value="{$info.info_101013}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">天然气消耗量（万立方米）：
+                    <input type="text" name="info_101016" id="info_101016"  value="{$info.info_101016}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101017" id="info_101017"  value="{$info.info_101017}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">其中中水消耗量（万吨）：
+                    <input type="text" name="info_101048" id="info_101048"  value="{$info.info_101048}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101049" id="info_101049"  value="{$info.info_101049}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">其他能源消耗量（吨标准煤）：                    
+					<input type="text" name="info_101040" id="info_101040"  value="{$info.info_101040}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101041" id="info_101041"  value="{$info.info_101041}"  style=" width:80px;" readonly="readonly"></td>
+                </tr>
+                <tr>
+                  <td align="right">煤消耗量（万吨）：
+                    <input type="text" name="info_101014" id="info_101014"  value="{$info.info_101014}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right">费用（万元）：
+                    <input type="text" name="info_101015" id="info_101015"  value="{$info.info_101015}"  style=" width:80px;" readonly="readonly"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </tr>
+
+                <tr>
+                  <td height="20" colspan="4">
+                  </td>
+                  </tr>
+                <tr>
+                  <td colspan="4" align="center"><img src="__PUBLIC__/images/close.gif" width="100" height="29" onclick="javascript:location.href='{$referUrl}';"></td>
+                </tr>
+                <tr>
+                  <td colspan="4" align="center">&nbsp;</td>
+                </tr>
+                </table></td>
+            </tr>
+          </table>
+		 </td>
+      </tr>
+    </table></TD></TR>
+  <TR>
+    <TD bgColor='#b1ceef' height='1'></TD></TR>
+</TABLE></BODY></HTML>
