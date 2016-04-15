@@ -2,10 +2,10 @@
 return array(
     'DB_HOST'               => 'localhost',
     'DB_NAME'               => 'energy',
-    //'DB_USER'               => 'jn_soft',
-    //'DB_PWD'                => 'jn_soft@)!$',
-    'DB_USER'               => 'root',
-    'DB_PWD'                => 'root',
+    'DB_USER'               => 'jn_soft',
+    'DB_PWD'                => 'jn_soft@)!$',
+    //'DB_USER'               => 'root',
+    //'DB_PWD'                => 'root',
     'DB_PORT'               => '3306',
     'DB_PREFIX'             => 'energy_',
 	//'DB_PARAMS'=>array('persist'=>true),//数据库其他参数
@@ -14,7 +14,7 @@ return array(
     'URL_CASE_INSENSITIVE'  => false,
     'URL_MODEL'             => 1,
 	/*DEBUG*/
-    'LOG_RECORD'			=>	true,  // 进行日志记录
+    'LOG_RECORD'			=>	false,  // 进行日志记录
     'LOG_EXCEPTION_RECORD'  => 	true,    // 是否记录异常信息日志
 
 
