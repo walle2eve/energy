@@ -13,7 +13,7 @@ class AjaxAction extends Action {
 	//学校下拉菜单
 	public function getSchoolSelect(){
 		$town_id = $_REQUEST['town_id'];
-		$school_type = $this->_get('school_type');
+		$school_type = I('school_type');
 		$schoolSelect = D('School')->getSchoolSelect($town_id,0,$school_type);
 		if(!empty($schoolSelect))$this->returnAjaxMsg(0,'',$schoolSelect);
 		else $this->returnAjaxMsg(1,'学校列表为空');

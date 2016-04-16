@@ -7,8 +7,8 @@ class UserAction extends Action {
 		}
     }
 	public function login() {
-		$login_name	 = $this->_post('username');
-		$login_pwd	 = $this->_post('password');
+		$login_name	 = I('username');
+		$login_pwd	 = I('password');
 		$User = D("User");
 		$return = $User->login($login_name,$login_pwd);
 		if($return['errno'])$this->error($return['errtitle']);
@@ -41,7 +41,7 @@ class UserAction extends Action {
 	}
 	///修改用户密码
 	public function setUserPass(){
-		$login_name = $this->_post('login_name');
+		$login_name = I('login_name');
 	    $return = D('User')->resetPass($login_name);
 	    if(0!=$return['errno'])$this->error($return['errtitle']);
    	    $this->success('用户密码重置成功！',U('Main/manager'));

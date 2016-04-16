@@ -16,7 +16,7 @@ class MainAction extends Action {
 	// 各单位上报信息
 	public function showAddStatus(){
 		$user_kind = session('user_kind');
-		$town_id = $this->_get('town_id',0);
+		$town_id = I('town_id',0);
 		$list = D('Info')->getShowAddStatus($town_id);
 		$this->assign('user_kind',$user_kind);
 		$this->assign('list',$list);
@@ -119,9 +119,9 @@ class MainAction extends Action {
 	//查看数据
 	public function showInfo(){
 		
-		$id = $this->_get('id');
+		$id = I('id');
 		if(!$id){$this->showStatus('参数错误');}
-		$ac = in_array($this->_get('ac'),array('Info','TownYearCollect')) ? $this->_get('ac') : 'Info';
+		$ac = in_array(I('ac'),array('Info','TownYearCollect')) ? I('ac') : 'Info';
 		
 		$info = D($ac)->getInfoById($id);
 		if(empty($info))$this->showStatus('该信息不存在或已被删除！');
@@ -191,7 +191,7 @@ class MainAction extends Action {
 		$info['avgs_101040'] = round($info['info_101040']/$totals,4);
 		$info['avgm_101040'] = round($info['info_101040']/$totalm,4);
 
-		if($this->_get('viewType','') == 'downInfo' && $ac == 'Info'){
+		if(I('viewType','') == 'downInfo' && $ac == 'Info'){
 			header("Content-Type:text/html; charset=utf-8");
 
 			$filename = $info['school_name'].'——'.$info['yearStr'].'能源信息表';
@@ -222,11 +222,11 @@ class MainAction extends Action {
 	public function collect(){
 		$user_kind = session('user_kind');
 		
-		$ac = in_array($this->_get('ac'),array('Info','TownYearCollect')) ? $this->_get('ac') : 'Info';
+		$ac = in_array(I('ac'),array('Info','TownYearCollect')) ? I('ac') : 'Info';
 		
 		switch($user_kind){
 			case '301010':
-				$town_id = $this->_get('town',0);
+				$town_id = I('town',0);
 				//区县年度汇总只包括17区县20150214
 				$townList = D('Town')->getTownSelect($town_id,$ac);
 				break;
@@ -332,7 +332,7 @@ class MainAction extends Action {
 			$info['avgs_101040'] = round($info['info_101040']/$totals,4);
 			$info['avgm_101040'] = round($info['info_101040']/$totalm,4);
 			
-			if($this->_get('viewType','') == 'downInfo'){
+			if(I('viewType','') == 'downInfo'){
 				header("Content-Type:text/html; charset=utf-8");
 				
 				//导出区县汇总数据
@@ -367,7 +367,7 @@ class MainAction extends Action {
 			}
 			exit();
 		}
-		$id = $this->_get('id');
+		$id = I('id');
 		if(!$id){$this->showStatus('参数错误');}
 		$info = D('Info')->getInfoById($id);
 		if(empty($info))$this->showStatus('该信息不存在或已被删除！');
@@ -389,7 +389,7 @@ class MainAction extends Action {
 			}
 			exit();
 		}
-		$id = $this->_get('id');
+		$id = I('id');
 		if(!$id){$this->showStatus('参数错误');}
 		$info = D('TownYearCollect')->getInfoById($id);
 		if(empty($info))$this->showStatus('该信息不存在或已被删除！');
@@ -400,7 +400,7 @@ class MainAction extends Action {
 	//删除数据--区县汇总2015-02-12
 	public function delTownCollectInfo(){
 		//print_r($_SERVER);exit();
-		$id = $this->_get('id');
+		$id = I('id');
 		if(!$id){$this->showStatus('参数错误');}
 		$return = D('TownYearCollect')->delInfo($id);
 		if($return['errno']>0){
@@ -414,7 +414,7 @@ class MainAction extends Action {
 	//删除数据
 	public function delInfo(){
 		//print_r($_SERVER);exit();
-		$id = $this->_get('id');
+		$id = I('id');
 		if(!$id){$this->showStatus('参数错误');}
 		$return = D('Info')->delInfo($id);
 		if($return['errno']>0){
@@ -558,7 +558,7 @@ class MainAction extends Action {
 			$this->showStatus('请先选择对比类型对比单位及对比时间','error',U('Main/contrast'));
 			die();
 		}
-		$info_unit = $this->_post('infounit');
+		$info_unit = I('infounit');
 		if(empty($info_unit)){
 			$this->showStatus('请选择对比项');
 			die();
@@ -714,7 +714,7 @@ class MainAction extends Action {
 			$this->showStatus('请先选择排序类型排序单位及排序时间','error',U('Main/orderby'));
 			die();
 		}
-		$info_unit = $this->_post('infounit');
+		$info_unit = I('infounit');
 		if(empty($info_unit)){
 			$this->showStatus('请选择排序项');
 			die();
@@ -794,7 +794,7 @@ class MainAction extends Action {
 	public function exportContrast(){
 		$ct = cookie('ct');
 		$town = cookie('town');
-		$info_unit = $this->_get('info_unit');
+		$info_unit = I('info_unit');
 		$constrastList = D('Info')->contrast($info_unit,$town);
 		$this->exportExcel($constrastList,'constrast');
 	}
@@ -802,7 +802,7 @@ class MainAction extends Action {
 	public function exportOrderby(){
 		$ct = cookie('ct');
 		$town = cookie('town');
-		$info_unit = $this->_get('info_unit');
+		$info_unit = I('info_unit');
 		$orderbyList = D('Info')->orderby($info_unit,$town);
 		$this->exportExcel($orderbyList,'orderby');
 	}
@@ -1097,7 +1097,7 @@ class MainAction extends Action {
 
 	//重置用户密码
 	public function setUserPass(){
-		$login_name = $this->_get('login_name');
+		$login_name = I('login_name');
 		$this->assign('headTitle','修改密码');
 		
 		$this->assign('isManager',1);

@@ -1,11 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD>
-<META http-equiv='Content-Type content="text/html; charset=utf-8"'>
-<LINK href="__PUBLIC__/css/admin.css" type="text/css" rel="stylesheet">
-<LINK href="__PUBLIC__/css/select2.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="__PUBLIC__/js/lhgcalendar/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/lhgcalendar/lhgcalendar.min.js"></script>
-<script src="__PUBLIC__/js/select2.min.js"></script>
+<include file="Public:base" />
 
 <title>用户登录密码管理——{:C('SITE_SUBJECT')}</title>
 <style>
@@ -51,8 +44,10 @@ $(function(){
 	});
 	*/
 	$('#submitbtn').bind('click',function (){
-		if($("#town_id").val() == 0 || ($("#town_id").val() == 110000 && $("#school_id").val() == 0)){
-			alert('请选择要管理的用户');
+		if($("#town_id").val() == 0 || (($("#town_id").val() == 110000 || $("#town_id").val() == 110100) && $("#school_id").val() == 0)){
+			layer.alert('请选择要管理的用户',{
+				skin: 'layui-layer-lv' 
+			});
 			return false;
 		}
 		$('form').submit();
