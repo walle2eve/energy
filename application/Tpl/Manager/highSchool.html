@@ -1,0 +1,155 @@
+<include file="Public:base" />
+
+<title>高等学校管理——{:C('SITE_SUBJECT')}</title>
+<style>
+.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
+.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
+.right3{font-size:14px;}
+img{ cursor:pointer; }
+</style>
+
+<script>
+$(function(){
+	$('select').select2();
+
+	$('#school_type').bind('change',function(){
+		$('#school_id').empty();
+		var school_type = this.value;
+		if(school_type == 0)return false;
+		url = "{:U('Ajax/getSchoolSelect')}";
+		url += '?school_type='+school_type;
+		$.get(url, function(result){
+			if(result.errno==0){
+				$('#school_id').html('<option value=0>请选择学校</option>'+result.data);
+			}else{
+				layer.alert(result.errtitle,{icon:2});return false;
+			}
+		});
+	});
+	
+	$('#addHighSchool').bind('click',function(){
+		layer.open({
+		  type: 2,
+		  title: '添加高校',
+		  area: ['700px', '530px'],
+		  fix: true, //不固定
+		  maxmin: false,
+		  content: '{:U('Manager/addHighSchool')}'
+		});
+	});
+	<if condition="$school_type">
+	$('#school_type').trigger("change");
+	</if>
+});
+</script>
+</HEAD>
+<BODY>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align='center' border=0 style="border:1px #9AD452 solid; background-color:##F3FFE3; margin-left:0px;"  height='100%'>
+  <TR>
+    <TD valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="62" style="background-image:url(__PUBLIC__/images/right-bj.gif)"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="28"><img src="__PUBLIC__/images/right0.gif" width="16" height="13"></td>
+            <td style="color:#43860C; font-size:16px; font-weight:bold;">{:C('SITE_SUBJECT')}</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="480" valign="top" bgcolor="#F3FFE3"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td height="16" bgcolor="#FFFFFF">&nbsp;
+            </td>
+          </tr>
+        </table>
+		
+          <table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td align="left" bgcolor="#FFFFFF"><table width="840" border="0" cellspacing="0" cellpadding="0">
+			  <form action="" method="get" id="addfrom">
+                <tr>
+                  <td height="30" colspan="1" align="right">高校类别&nbsp;&nbsp;&nbsp;
+					<label>
+                      <select name="school_type" id="school_type" style="width:144px;">
+                        <option value="0">请选择高校类别</option>
+						<volist name="highSchoolType" id="vo">
+						<option value="{$vo.dict_id}" <eq name="school_type" value="$vo['dict_id']">selected</eq>>{$vo.dict_name}</option>
+						</volist>
+                      </select>
+                    </label>
+				  </td>
+                  <td height="30" colspan="1" align="left">&nbsp;&nbsp;&nbsp;学校&nbsp;&nbsp;&nbsp;
+					<select name="school_id" id="school_id"  style="width:244px;">
+                      <option value="0">请选择学校</option>
+					  {$schoolSelect}
+                    </select>
+					</td>
+					<td colspan="2" align="left">
+					<img src="__PUBLIC__/images/tijiao.gif" width="100" height="29" id="submitbtn">
+					<img src="__PUBLIC__/images/tjgx.gif" width="100" height="29" id="addHighSchool" />
+					</td>
+                </tr>
+				</form> 
+                <tr>
+                  <td height="20" colspan="4">
+                  </td>
+                  </tr>
+                <tr>
+                  
+                </tr>
+                <tr>
+					<td colspan="4" align="left">
+					<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+						<tr>
+						  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right3">
+							<tr>
+							  <td height="16"><table width="760" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+								  <td height="10">
+								  </td>
+								</tr>
+							  </table>
+							  </td>
+							</tr>
+							<tr height="14">
+							  <td><table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
+								<tr class="right22">
+								  <td width="56" height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">学校编码</td>
+								  <td width="91"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">学校名称</td>
+								  <td width="80"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">高校类别</td>
+								  <td width="178"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">开办单位类型</td>
+								  <td width="97"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">开办单位</td>
+								  
+								  
+								  </tr>
+								<volist name="school_list" id="vo">
+								<tr>
+								  <td align="center" height="36" bgcolor="#FFFFFF"><label>
+									{$vo.school_code}
+								  </label></td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.school_name}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.school_type_name}</a></td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.uni_type}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.unit_name}</td>
+								</tr>
+								</volist>
+							  </table></td>
+							</tr>
+							<tr>
+							  <td height="60">{$page}</td>
+							</tr>
+						  </table></td>
+						</tr>
+					  </table>
+					</td>
+                </tr>
+                </table></td>
+            </tr>
+          </table>
+		 
+		 </td>
+      </tr>
+    </table></TD></TR>
+  <TR>
+    <TD bgColor='#b1ceef' height='1'></TD></TR>
+</TABLE></BODY></HTML>

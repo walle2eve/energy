@@ -1,10 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD>
-<META http-equiv='Content-Type content="text/html; charset=utf-8"'>
-<LINK href="__PUBLIC__/css/admin.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="__PUBLIC__/js/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/layer/layer.min.js"></script>
+<include file="Public:base" />
+
 <script type="text/javascript">
+var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 $(document).ready(function(){
   $('#submitBtn').click(function(){
     var link_man = $('#link_man').val();
@@ -12,17 +9,17 @@ $(document).ready(function(){
     var link_email = $('#link_email').val();
 
     if($.trim(link_man) == ''){
-      layer.alert('请填写姓名！',2);
+      layer.alert('请填写姓名！',{icon:2});
       return false;
     }
 
     if($.trim(link_phone) == ''){
-      layer.alert('请填写联系电话！',2);
+      layer.alert('请填写联系电话！',{icon:2});
       return false;
     }
 
     if($.trim(link_email) == ''){
-      layer.alert('请填写email！',2);
+      layer.alert('请填写email！',{icon:2});
       return false;
     }
 

@@ -41,6 +41,19 @@ class InfoModel extends Model{
 		$data['quarter'] = $quarter;
 		$data['input_time'] = date('Y-m-d H:i:s');
 		
+		$branch_schools = explode("\r\n",$data['branch_schools']);
+		$tmp_branch = array();
+		if(!empty($branch_schools)){
+			foreach($branch_schools as  $val){
+				if(trim($val) != ''){
+					$tmp_branch[] = str_replace(',','，',$val);
+				}			
+			}
+		}
+		$data['branch_schools'] = '';
+		if($tmp_branch != ''){
+			$data['branch_schools'] = implode(',',$tmp_branch);
+		}
 		//备注：因故未能上报数据的学校填写备注
 		$data['notes'] = trim($data['notes']);
 		//标记是否有数据
@@ -68,6 +81,7 @@ class InfoModel extends Model{
 			//市属高校及市教委直属直管单位按照季度上报，其余按照半年度上报
 			$quarterStr = $info['town_id'] == '110000' || $info['town_id'] == '110100' ? $info['quarter'] . '季度' : (($info['quarter']==2?'下':'上').'半年');
 			$info['yearStr'] = $info['year'].'年'.$quarterStr;
+			$info['branch_schools'] = str_replace(',',"\r\n",$info['branch_schools']);
 		}
 		return $info;
 	}

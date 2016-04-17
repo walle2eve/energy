@@ -22,7 +22,7 @@ $(function(){
 		$('select').each(function(i,item){
 			if(item.value==0){is_error++;}
 		});
-		if(is_error >0){alert('所有选项都不能为空');return false;}
+		if(is_error >0){layer.alert('所有选项都不能为空',{icon:2});return false;}
 		$('form').submit();
 	});
 });

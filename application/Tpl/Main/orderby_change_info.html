@@ -13,7 +13,7 @@ function checkForm(){
 		if(item.checked == true || item.checked == 'checked')errnum++;
 	});
 	if(errnum==0){
-		alert('请选择要排序的单位');
+		layer.alert('请选择要排序的单位',{icon:2});
 		return false;
 	}
 	return true;

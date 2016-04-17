@@ -1,5 +1,24 @@
 ﻿<?php
 class UserModel extends Model{
+  public function addUser($login_name,$login_pwd,$user_kind,$org_id){
+	  $is_user = false;
+	  //校验用户名是否已经存在
+	  $is_user = $this->where("login_name = %s",$login_name)->getField('login_name');
+	  
+	  if($is_user)return array('errno'=>201,'errtitle'=>'用户名已经存在！');
+	  
+	  $data['login_name'] = strtolower($login_name);
+	  $data['login_pwd'] = md5($login_pwd);
+	  $data['user_kind'] = $user_kind;
+	  $data['org_id'] = $org_id;
+	  $data['update_time'] = date('Y-m-d H:i:s');
+	  $return  = $this->add($data);
+	  
+	  if($return){
+		  return array('errno'=>0,'errtitle'=>'账号添加成功！');
+	  }
+	  return array('errno'=>3,'errtitle'=>'账号添加失败！');
+  }
   public function login($login_name,$login_pwd) {
 	  if(!$login_name||!$login_pwd)Return array('errno'=>9,'errtitle'=>'用户名和密码不能为空~');
 	  $map['login_name'] = $login_name;
@@ -33,6 +52,28 @@ class UserModel extends Model{
 	  if(!$user_id)Return array('errno'=>8,'errtitle'=>'原密码错误！');
 	  Return $this->where('user_id = '.$user_id)->setField(array('login_pwd'=>md5($newpass)));
   }
+  //设置用户状态
+  public function setUserStatus($uid) {
+      
+	  if(!$uid){
+		  return array('errno'=>1,'errtitle'=>'参数错误！');
+	  }
+	  $userinfo = $this->getUserInfoAll($uid);
+	  
+	  if(!$userinfo) return array('errno'=>21,'errtitle'=>'用户信息错误！');
+
+	  $status = $userinfo['status'] == 1 ? 0 : 1;
+	  
+	  $return = $this->where('user_id = %d',$uid)->setField('status',$status);
+	  //echo M()->getlastsql();
+	  $status = $userinfo['status'] == 1 ? '<font color="red">禁用</font>' : '<font color="green">启用</font>';
+	  
+	  if(!$return){
+		 return array('errno'=>232,'errtitle'=>'用户['.$userinfo['login_name'].']启用状态设置失败，请稍后重试'); 
+	  }
+	  return array('errno'=>0,'errtitle'=>'用户['.$userinfo['login_name'].']启用状态已设置为：'.$status .'。下次登录生效！','data'=>$status);
+  }
+  
   //修改用户信息
   public function editUserInfo($userinfo){
   	
@@ -63,18 +104,20 @@ class UserModel extends Model{
   public function getUserInfo($org_id = 0){
 	if(empty($org_id) || $org_id == 110000 || $org_id == 110100)
 		return array('errno'=>1,'errtitle'=>'参数错误');
-	$info = $this->where('org_id = '.$org_id.'')->find();
-	if(empty($info)){
+	$infos = $this->where('org_id = '.$org_id.'')->select();
+	if(empty($infos)){
 		return array('errno'=>2,'errtitle'=>'参数错误，没找到这个用户');
 	}
-	if($info['user_kind'] == '301020'){
-		$info['user_type'] = '区县用户';
-		$info['unit_name'] = M('town')->where('town_id = '.$org_id)->getField('town_name');
-	}elseif($info['user_kind'] == '301030' OR $info['user_kind'] == '301040'){
-		$info['user_type'] = '学校用户';
-		$info['unit_name'] = M('school')->where('school_id = '.$org_id)->getField('school_name');
+	foreach($infos as &$info){
+		if($info['user_kind'] == '301020'){
+			$info['user_type'] = '区县用户';
+			$info['unit_name'] = M('town')->where('town_id = '.$org_id)->getField('town_name');
+		}elseif($info['user_kind'] == '301030' OR $info['user_kind'] == '301040'){
+			$info['user_type'] = '学校用户';
+			$info['unit_name'] = M('school')->where('school_id = '.$org_id)->getField('school_name');
+		}
 	}
-	return $info;
+	return $infos;
   }
 
   //查看用户其他信息

@@ -1069,8 +1069,8 @@ class MainAction extends Action {
 	//市级用户和区县用户管理学校用户账号
 	public function manager(){
 		$user_kind = session('user_kind');
-		if($user_kind != '301010' && $user_kind != '301020')$this->showStatus('您没有权限执行本操
-		作!');
+		$this->assign('user_kind',$user_kind);
+		if($user_kind != '301010' && $user_kind != '301020')$this->showStatus('您没有权限执行本操作!');
 
 		$data = I('get.',0,'htmlspecialchars');
 		if($data['town_id']){

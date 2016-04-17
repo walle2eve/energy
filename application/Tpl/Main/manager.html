@@ -21,7 +21,7 @@ $(function(){
 			if(result.errno==0){
 				$('#school_id').html('<option value=0>请选择学校</option>'+result.data);
 			}else{
-				alert(result.errtitle);return false;
+				layer.alert(result.errtitle,{icon:2});return false;
 			}
 		});
 	});
@@ -45,12 +45,48 @@ $(function(){
 	*/
 	$('#submitbtn').bind('click',function (){
 		if($("#town_id").val() == 0 || (($("#town_id").val() == 110000 || $("#town_id").val() == 110100) && $("#school_id").val() == 0)){
-			layer.alert('请选择要管理的用户',{
-				skin: 'layui-layer-lv' 
-			});
+			layer.alert('请选择要管理的用户');
 			return false;
 		}
 		$('form').submit();
+	});
+	//
+	$('#adduser').bind('click',function(){
+		layer.open({
+		  type: 2,
+		  title: '账号添加',
+		  area: ['700px', '530px'],
+		  fix: true, //不固定
+		  maxmin: false,
+		  content: '{:U('Manager/addUser')}'
+		});
+	});
+	//设置是否可用
+	$('.setStatus').bind('click',function(){
+		var ob = $(this);
+		var status = $(this).attr('status') == '1' ? '禁用' : '启用';
+		var uid = $(this).attr('uid');
+		if(!uid){
+			layer.msg('参数错误，请刷新后重试！',{icon:2});
+			return false;
+		}
+		
+		layer.confirm('您确定要设置登录用户['+ $(this).attr('uname') +']的状态为：'+ status + '?', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		  //layer.msg('的确很重要', {icon: 2});
+		  $.post('{:U('Ajax/setUserStatus')}',{id:uid},function(response){
+				if(response.errno != 0){
+					layer.msg(response.errtitle,{icon:2});
+					return false;
+				}
+				ob.html(response.data);
+				layer.msg(response.errtitle,{icon:1});
+				return;
+		  });
+		}, function(){
+		  layer.close();
+		});
 	});
 });
 </script>
@@ -94,7 +130,14 @@ $(function(){
 					  {$schoolSelect}
                     </select>
 					</td>
-					<td colspan="2" align="left"><img src="__PUBLIC__/images/tijiao.gif" width="100" height="29" id="submitbtn"></td>
+					<td colspan="2" align="left">
+					<img src="__PUBLIC__/images/tijiao.gif" width="100" height="29" id="submitbtn">
+					<!--<a href="javascript:void(0)" id="adduser">添加账号</a>-->
+					<img src="__PUBLIC__/images/tjzh.gif" width="100" height="29" id="adduser">
+					<eq name="user_kind" value="301010">
+					<a href="{:U('Manager/highSchool')}" id=""><img src="__PUBLIC__/images/glgx.gif" width="100" height="29" id="adduser"></a>
+					</eq>
+					</td>
                 </tr>
 				</form> 
                 <tr>
@@ -118,7 +161,7 @@ $(function(){
 							  </table>
 							  </td>
 							</tr>
-							<tr>
+							<tr height="14">
 							  <td><table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
 								<tr class="right22">
 								  <td width="56" height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">用户ID</td>
@@ -128,23 +171,25 @@ $(function(){
 								  <td width="97"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">最后一次登录时间</td>
 								  <td width="110"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">最后一次登录IP</td>
 								  <td  height="26" colspan="1" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">登录次数</td>
-								  <td  height="26" colspan="1" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">是否可用</td>
+								  <td  height="26" colspan="1" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">启用状态</td>
 								  <td  height="26" colspan="1" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">重置登录密码</td>
 								  </tr>
 								<if condition="$userInfo">
+								<volist name="userInfo" id="vo">
 								<tr>
-								  <td align="center" bgcolor="#FFFFFF"><label>
-									{$userInfo.user_id}
+								  <td align="center" height="36" bgcolor="#FFFFFF"><label>
+									{$vo.user_id}
 								  </label></td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.login_name}</td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.user_type}</a></td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.unit_name}</td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.last_login_time}</td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.last_login_ip}</td>
-								  <td align="center" bgcolor="#FFFFFF">{$userInfo.login_count}</td>
-								  <td  align="center" bgcolor="#FFFFFF"><eq name="userInfo[status]" value='1'>可用<else/>不可用</eq></td>
-								   <td  align="center" bgcolor="#FFFFFF"><a href="{:U('Main/setUserPass',array('login_name'=>$userInfo['login_name']))}">重置密码</a></td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.login_name}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.user_type}</a></td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.unit_name}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.last_login_time}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.last_login_ip}</td>
+								  <td align="center" bgcolor="#FFFFFF">{$vo.login_count}</td>
+								  <td  align="center" bgcolor="#FFFFFF"><a href="javascript:void(0);" class="setStatus" status="{$vo.status}" uid="{$vo.user_id}" uname="{$vo.login_name}"><eq name="vo[status]" value='1'><font color="green">启用</font><else/><font color="red">禁用</font></eq></a></td>
+								   <td  align="center" bgcolor="#FFFFFF"><a href="{:U('Main/setUserPass',array('login_name'=>$vo['login_name']))}">重置密码</a></td>
 								</tr>
+								</volist>
 								</if>
 							  </table></td>
 							</tr>

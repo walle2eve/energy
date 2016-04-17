@@ -11,7 +11,8 @@
 <script>
 $(function(){
 	$("input").numeral();
-	$('#addtime').calendar({ format:'yyyy-MM-dd HH:mm:ss' }); 
+	$('#addtime').calendar({ format:'yyyy-MM-dd HH:mm:ss' });
+	//$('select').select2();
 	<neq name="ac" value="edit">
 	//$('#addtime').calendar();
 	$('#town_id').bind('change',function(){
@@ -24,7 +25,7 @@ $(function(){
 			if(result.errno==0){
 				$('#school_id').html('<option value=0>请选择学校或单位</option>'+result.data);
 			}else{
-				alert(result.errtitle);return false;
+				layer.alert(result.errtitle,{icon:2});return false;
 			}
 		});
 	});
@@ -37,10 +38,13 @@ $(function(){
 		url += '?school_id='+school_id;
 		$.get(url, function(result){
 			if(result.errno==0){
-				$('#school_type').html('<option value='+result.data.school_type+'>'+result.data.school_type_name+'</option>');
-				$('#school_code').html('<option value='+result.data.school_code+'>'+result.data.school_code+'</option>');
+				$('#school_type').append('<option value='+result.data.school_type+'>'+result.data.school_type_name+'</option>');
+				//$('#school_type').val(result.data.school_type).trigger("change");
+				$('#school_code').append('<option value='+result.data.school_code+'>'+result.data.school_code+'</option>');
+				//$('#school_code').val(result.data.school_type).trigger("change");
 			}else{
-				alert(result.errtitle);return false;
+				layer.alert(result.errtitle,{icon:2});
+				return false;
 			}
 		});
 	});
@@ -49,13 +53,33 @@ $(function(){
 		var is_error = 0;
 		$('input[type=text]').each(function(i,item){
 			if(item.value==''){
+				console.log(item.name);
 				is_error++;
 			}
 		});
-		$('select').each(function(i,item){
-			if(item.value==0){is_error++;}
-		});
-		if(is_error >0){alert('所有选项都不能为空');return false;}
+
+
+		var town_id = $('#town_id').val();
+		var school_id = $('#school_id').val();
+		var school_type = $('#school_type').val();
+		var school_code = $('#school_code').val();
+		if(!town_id || town_id == null || town_id == 0){
+			layer.msg('请选择区县',{icon:2});
+			return false;
+		}
+		if(!school_id || school_id == null || school_id == 0){
+			layer.msg('请选择学校',{icon:2});
+			return false;
+		}
+		if(!school_type || school_type == null || school_type == 0){
+			layer.msg('请选择学校类型',{icon:2});
+			return false;
+		}
+		if(!school_code || school_code == null || school_code == 0){
+			layer.msg('请选择学校代码',{icon:2});
+			return false;
+		}
+		if(is_error >0){layer.alert('所有选项都不能为空',{icon:2});return false;}
 		$('form').submit();
 	});
 });
@@ -139,7 +163,10 @@ $(function(){
                     <input type="text" name="add_time" id="addtime" value="{$info.add_time}" style="width:200px;" readonly />
 
 					</td>
-                  <td colspan="2" align="right">&nbsp;</td>
+                  <td colspan="2" align="right">&nbsp;分校地址：<textarea name="branch_schools" cols="25" rows="3">{$info.branch_schools}</textarea>
+				  <br>
+                   <span  style="color:#999999;">可填写多个，换行分隔（非必填）</span>
+				  </td>
                 </tr>
                 <tr>
                   <td colspan="2" align="right">建筑面积（万平方米）

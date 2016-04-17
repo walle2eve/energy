@@ -1,7 +1,26 @@
 <?php
 class SchoolModel extends Model{
-
-	public function getSchoolList($town_id=0,$school_type=0){
+  public function addHighSchool($data){
+	  $is_school = false;
+	  //校验学校编码是否已经存在
+	  $is_school = $this->where("school_code = %s",$data['school_code'])->getField('school_code');
+	  
+	  if($is_school)return array('errno'=>201,'errtitle'=>'学校编码已经存在！');
+	  
+	  $is_school = $this->where("school_name = %s",$data['school_name'])->getField('school_name');
+	  
+	  if($is_school)return array('errno'=>201,'errtitle'=>'学校名称已经存在！');
+	  
+	  $data['town_id'] = 110000;
+	  $return  = $this->add($data);
+	  
+	  if($return){
+		  return array('errno'=>0,'errtitle'=>'高校添加成功！');
+	  }
+	  return array('errno'=>3,'errtitle'=>'高校添加失败！');
+  }
+  
+	public function getSchoolList($town_id=0,$school_type=0,$school_id =0){
 		$user_kind = session('user_kind');
 		$where = '';
 		switch($user_kind){
@@ -20,7 +39,9 @@ class SchoolModel extends Model{
 				break;
 		}
 		if($school_type)$where .= ' AND school_type = '.$school_type;
-		return $this->where($where)->order('orderby DESC')->select();
+		if($school_id)$where .= ' AND school_id = '.$school_id;
+		
+		return $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->field('s.*,ed.dict_name AS school_type_name')->where($where)->order('orderby DESC')->select();
 	}
 	public function getSchoolListByids($andWhere){
 		$where = ' 1=1';
