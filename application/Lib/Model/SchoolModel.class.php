@@ -3,13 +3,13 @@ class SchoolModel extends Model{
   public function addHighSchool($data){
 	  $is_school = false;
 	  //校验学校编码是否已经存在
-	  $is_school = $this->where("school_code = %s",$data['school_code'])->getField('school_code');
+	  $is_school = $this->where("school_code = '%s'",$data['school_code'])->getField('school_code');
 	  
 	  if($is_school)return array('errno'=>201,'errtitle'=>'学校编码已经存在！');
 	  
-	  $is_school = $this->where("school_name = %s",$data['school_name'])->getField('school_name');
+	  $is_school = $this->where("school_name = '%s'",$data['school_name'])->getField('school_name');
 	  
-	  if($is_school)return array('errno'=>201,'errtitle'=>'学校名称已经存在！');
+	  if($is_school)return array('errno'=>202,'errtitle'=>'学校名称已经存在！');
 	  
 	  $data['town_id'] = 110000;
 	  $return  = $this->add($data);

@@ -37,6 +37,9 @@ $(function(){
 		  content: '{:U('Manager/addHighSchool')}'
 		});
 	});
+	$('#submitbtn').click(function(){
+		$('form').submit();
+	});
 	<if condition="$school_type">
 	$('#school_type').trigger("change");
 	</if>
