@@ -76,7 +76,16 @@ class ManagerAction extends Action {
 		
 		$this->display();
 	}
-
+	// 高等院校分类管理
+	public function setHighSchoolType(){
+		//添加修改删除时的下拉菜单选择项
+		$school_type_options = D('SchoolType')->getOptions();
+		$edit_school_type_options = D('SchoolType')->getOptions(0,0,'','edit');
+		$this->assign('school_type_options',$school_type_options);
+		$this->assign('edit_school_type_options',$edit_school_type_options);
+		//
+		$this->display();
+	}
 	private function showStatus($msg,$status = 'error',$referUrl = ''){
 		if($referUrl == '')$referUrl = $this->referUrl;
 		$this->$status($msg,$referUrl);

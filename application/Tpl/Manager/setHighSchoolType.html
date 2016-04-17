@@ -1,0 +1,176 @@
+<include file="Public:base" />
+
+	<TITLE> 高等院校分类管理 </TITLE>
+	<link rel="stylesheet" href="__PUBLIC__/zTree_v3-master/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="__PUBLIC__/zTree_v3-master/js/jquery.ztree.core.js"></script>
+	<SCRIPT type="text/javascript">
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		parent.layer.iframeAuto(index);
+		<!--
+		var setting = {
+			view: {
+				showIcon: showIconForTree
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+		
+		var zNodes = new Array();
+		
+		function showIconForTree(treeId, treeNode) {
+		///	return !treeNode.isParent;
+		};
+
+		$(document).ready(function(){
+			$.get('{:U('Ajax/getTypesJson')}',function(data){
+				if(!data){
+					layer.msg('类型加载失败，请刷新后重试',{icon:2});
+					return false;
+				}
+				zNodes = data;
+				$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			});
+			
+			//添加
+			$('#add').bind('click',function(){
+				layer.open({
+				  type: 1,
+				  skin: 'layui-layer-rim', //加上边框
+				  area: ['420px', '240px'], //宽高
+				  content: $('#adddom')
+				});
+			});
+			//修改
+			$('#edit').bind('click',function(){
+				layer.open({
+				  type: 1,
+				  skin: 'layui-layer-rim', //加上边框
+				  area: ['520px', '240px'], //宽高
+				  content: $('#editdom')
+				});
+			});
+			//删除
+			$('#del').bind('click',function(){
+				layer.open({
+				  type: 1,
+				  skin: 'layui-layer-rim', //加上边框
+				  area: ['420px', '240px'], //宽高
+				  content: $('#deldom')
+				});
+			});
+			$('#addbtn').bind('click',function(){
+				var add_up_id = $('#add_up_id').val();
+				if(add_up_id == ''){layer.msg('请选择要添加类型的上级类型',{icon:2});return false;}
+				var add_type_name = $.trim($('#add_type_name').val());
+				if(add_type_name == ''){layer.msg('请填写要添加的类型名称！',{icon:2});return false;}
+				$.post('{:U('Ajax/addSchoolType')}',{up_id:add_up_id,type_name:add_type_name},function(response){
+					if(response.errno != 0){
+						layer.msg(response.errtitle,{icon:2});
+						return false;
+					}else{
+						layer.alert(response.errtitle,{icon:1},function(){
+							window.location.reload();
+						});
+						return false;
+					}
+				});
+				return false;
+			});
+			$('#editbtn').bind('click',function(){
+				var edit_type_id = $('#edit_type_id').val();
+				if(edit_type_id == ''){layer.msg('请选择要修改的类型',{icon:2});return false;}
+				var edit_type_name = $.trim($('#edit_type_name').val());
+				var edit_up_id = $('#edit_up_id').val();
+				
+				if(edit_type_name == '' && !edit_up_id){
+					layer.msg('您没有任何修改！',{icon:2});
+					return false;
+				}
+				
+				$.post('{:U('Ajax/editSchoolType')}',{type_id:edit_type_id,type_name:edit_type_name,up_id:edit_up_id},function(response){
+					if(response.errno != 0){
+						layer.msg(response.errtitle,{icon:2});
+						return false;
+					}else{
+						layer.alert(response.errtitle,{icon:1},function(){
+							window.location.reload();
+						});
+						return false;
+					}
+				});
+			});
+			$('#delbtn').bind('click',function(){
+				var del_type_id = $('#del_type_id').val();
+				if(del_type_id == ''){layer.msg('请选择要删除的类型',{icon:2});return false;}
+				
+		
+				layer.confirm('如果已有该类型学校请将学校类型设置为其他类型后再进行操作！确定继续？', {
+				  btn: ['确定','取消'] //按钮
+				}, function(){
+					$.post('{:U('Ajax/delSchoolType')}',{type_id:del_type_id},function(response){
+						if(response.errno != 0){
+							layer.msg(response.errtitle,{icon:2});
+							return false;
+						}else{
+							layer.alert(response.errtitle,{icon:1},function(){
+								window.location.reload();
+							});
+							return false;
+						}
+					});
+				}, function(){
+					layer.close();
+				});	
+				return false;
+			});
+		});
+		//-->
+	</SCRIPT>
+	<style type="text/css">
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+	</style>
+</HEAD>
+
+<BODY>
+<div style="margin:20px">
+<h2><a href="javascript:void(0)" id="add">添加</a>
+<a href="javascript:void(0)" id="edit">修改</a>
+<a href="javascript:void(0)" id="del">删除</a></h2>
+<ul id="treeDemo" class="ztree"></ul>
+</div>
+<div style="margin:30px;display:none" id="adddom">
+父类型：
+<select id="add_up_id" style="z-index:-1">
+<option value="">请选择类型</option>
+{$school_type_options}
+</select><br /><br />
+类型名称：<input id="add_type_name" type="text" maxlength="100" /><br />
+<input type="button" id="addbtn" value="确定"/>
+</div>
+<div style="margin:30px;display:none" id="editdom">
+	要修改的类型：
+	<select id="edit_type_id">
+	<option value="">请选择类型</option>
+	{$edit_school_type_options}
+	</select><br /><br />
+	父类型：
+	<select id="edit_up_id" style="z-index:-1">
+	<option value="">请选择类型</option>
+	{$school_type_options}
+	</select>父类型不选择则不修改<br /><br />
+	类型名称：<input id="edit_type_name" type="text" maxlength="100" />类型名称不填写则不修改<br />
+	<input type="button" id="editbtn" value="确定"/>
+</div>
+<div style="margin:30px;display:none" id="deldom">
+	要删除的类型：
+	<select id="del_type_id" style="z-index:-1">
+	{$edit_school_type_options}
+	</select>
+	<br />
+	<input type="button" id="delbtn" value="确定"/>
+</div>
+</BODY>
+</HTML>

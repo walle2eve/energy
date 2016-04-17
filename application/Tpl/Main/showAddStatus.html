@@ -4,9 +4,23 @@
 .right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
 .right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
 .right3{font-size:14px;}
-
 </style>
-<title>{:C('SITE_SUBJECT')}</title></HEAD>
+<title>{:C('SITE_SUBJECT')}</title>
+<script type="text/javascript">
+$(function(){
+	$('#setHighSchoolType').bind('click',function(){
+		layer.open({
+		  type: 2,
+		  title: '高等院校分类管理',
+		  area: ['700px', '530px'],
+		  fix: true, //不固定
+		  maxmin: false,
+		  content: '{:U('Manager/setHighSchoolType')}'
+		});
+	});
+});
+</script>
+</HEAD>
 <BODY>
 <TABLE cellSpacing='0' cellPadding='0' width="100%" align='center' border='0' style="border:1px #9AD452 solid; background-color:##F3FFE3; margin-left:0px;"  height='100%'>
   <TR>
@@ -31,6 +45,11 @@
 				  </p>
 				  　　    </td>
                 </tr>
+				<if condition="$user_kind eq 301010 AND $town_id eq 110000">
+                <tr>
+                  <td height="40" valign="top" class="right1"><a id="setHighSchoolType" href="javascript:void(0);">高等院校分类管理</a></td>
+                </tr>
+				</if>
               </table>
                 <table width="760" border="0" cellspacing="0" cellpadding="0">
                   <tr> </tr>

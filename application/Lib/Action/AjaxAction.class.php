@@ -10,6 +10,34 @@ class AjaxAction extends Action {
 		$user_id = session('user_id');
 		if(!$user_id)$this->returnAjaxMsg(101,'请登录后进行操作！');
     }
+	//加载学校类型
+	public function getTypesJson(){
+		$info = D('SchoolType')->getTypesZtree();
+		$this->ajaxReturn($info);
+	}
+	//添加学校类型
+	public function addSchoolType(){
+		$up_id = I('up_id','');
+		$type_name = I('type_name','');
+		
+		$return = D('SchoolType')->addSchoolType($up_id,$type_name);
+		$this->ajaxReturn($return);
+	}
+	//修改学校类型
+	public function editSchoolType(){
+		$up_id = I('up_id','');
+		$type_name = I('type_name','');
+		$type_id = I('type_id',0);
+		
+		$return = D('SchoolType')->editSchoolType($type_id,$type_name,$up_id);
+		$this->ajaxReturn($return);
+	}
+	//删除学校类型
+	public function delSchoolType(){
+		$type_id = I('type_id',0);
+		$return = D('SchoolType')->delSchoolType($type_id);
+		$this->ajaxReturn($return);
+	}
 	//学校下拉菜单
 	public function getSchoolSelect(){
 		$town_id = I('town_id',110000);
