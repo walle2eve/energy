@@ -456,6 +456,8 @@ class MainAction extends Action {
 		$this->assign('years',$years);
 
 		$infolist = D('School')->getSchoolAndInfoList($map);
+		
+		print_r($infolist);
 
 		$this->assign('page',$infolist['page']);
 		$this->assign('list',$infolist['list']);

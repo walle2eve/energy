@@ -142,15 +142,26 @@ class SchoolModel extends Model{
 			default:
 				$where = '1=0';
 				break;
+		
 		}
-		if($school_type)$where .= ' AND s.school_type = '.$school_type;
+		//根据当前类型ID 查找所有该类型下子类型
+		
+		
+		
+		if($school_type){
+			//$school_types = D('SchoolType')->getTypesIdArr($school_type);
+			
+			$where .= ' AND s.school_type = '.$school_type;
+		}
 		if($school_id)$where .= ' AND s.school_id = '.$school_id;
 		if($year)$where .= ' AND i.year = '.$year;
 		if($quarter)$where .= ' AND i.quarter = '.$quarter;
 
 		$where .= ' AND s.is_del = 0';
 		
-		$count =  $this->alias('s')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_dict d ON d.dict_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->count();    //计算总数
+		//$count =  $this->alias('s')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_dict d ON d.dict_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->count();    //计算总数
+		
+		$count =  $this->alias('s')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_school_type d ON d.type_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->count();    //计算总数
 		
 		import("ORG.Util.Page");
 
@@ -158,7 +169,8 @@ class SchoolModel extends Model{
 		
 		$page = $p->show();
 
-		$list = $this->alias('s')->field('i.id,s.school_id,s.school_name,t.town_name,d.dict_name AS school_type_name,s.school_code,i.year,i.quarter,i.is_del')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_dict d ON d.dict_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->order('s.orderby,s.school_id ')->limit($p->firstRow.','.$p->listRows)->select();
+		//$list = $this->alias('s')->field('i.id,s.school_id,s.school_name,t.town_name,d.dict_name AS school_type_name,s.school_code,i.year,i.quarter,i.is_del')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_dict d ON d.dict_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->order('s.orderby,s.school_id ')->limit($p->firstRow.','.$p->listRows)->select();
+		$list = $this->alias('s')->field('i.id,s.school_id,s.school_name,t.town_name,d.type_name AS school_type_name,s.school_code,i.year,i.quarter,i.is_del')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_school_type d ON d.type_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->order('s.orderby,s.school_id ')->limit($p->firstRow.','.$p->listRows)->select();
 		foreach($list as $k=>$row){
 			if($row['id']){
 				if($yeartype == 'jidu'){
@@ -168,7 +180,6 @@ class SchoolModel extends Model{
 				}
 			}
 		}
-
 		return array('page'=>$page,'list'=>$list);
 	}
 }

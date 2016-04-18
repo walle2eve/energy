@@ -2,10 +2,10 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+//var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	$('select').select2({ width: 'resolve' });
 
-  $('#submitBtn').click(function(){
+  $('#submitBtn').bind('click',function(){
     var school_name = $('#school_name').val();
     var school_type = $('#school_type').val();
 	
@@ -30,6 +30,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 			}
 			layer.alert(response.errtitle,{icon:1},function(){
 			//	parent.layer.close(index);
+				window.location.reload();
 			});
 		},
 		error : function(){
@@ -127,7 +128,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 							  </table></td>
 							</tr>
 							<tr>
-							  <td align="center"> <img id="submitBtn"  src="__PUBLIC__/images/tijiao.gif"></td>
+							  <td align="center"> <img id="submitBtn"  src="__PUBLIC__/images/tijiao.gif" /></td>
 							</tr>
 						  </table></form></td>
 						</tr>

@@ -103,9 +103,7 @@ class SchoolTypeModel extends Model{
 			if($count==0){
 				$row['level'] = 'last';
 			}
-			
 			array_push($ar,$row);
-			
 			if($count > 0){
 				$level2 = $level + 1;
 				$ar = $this->getZtreeMenu($row['type_id'],$level2,$town_id,$ar);
@@ -113,6 +111,10 @@ class SchoolTypeModel extends Model{
 		}
 		return $ar;
 	}
+	//获取所有类型
+	//public function getTypesIdArr($type_id){
+	//	$data = $this->field('type_id,type_name,up_id,town_id')->where('up_id = %d OR type_id = %d',$type_id,$type_id)->order('order_no,type_id ')->select();
+	//} 
 	// 学校类型（高校）下拉框
 	public function getOptions($upid=0,$level=0,$optionstr='',$t='default',$town_id=110000,$type_id=''){
 		//edit , 不能修改的类型

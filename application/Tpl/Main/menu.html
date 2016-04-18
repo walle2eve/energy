@@ -52,14 +52,18 @@
 		<TR height='20'>
 			<TD align=middle width=30>
 			{$vo.levelstr}
-			<neq name="vo['level']" value="last">
-			<IMG height=9 src="__PUBLIC__/images/menu_bt.jpg" width=9>
-			<else/>
+			<eq name="vo['level']" value="last">
 			<IMG height=9 src="__PUBLIC__/images/menu_icon.gif" width=9>
-			</neq>
+			<else/>
+			<IMG height=9 src="__PUBLIC__/images/menu_bt.jpg" width=9>
+			</eq>
 			</TD>
 			<TD>
+			<eq name="vo['level']" value="last">
 			<A class='menuChild' href="{:U('Main/infolist',array('town_id'=>$vo['town_id'],'school_type'=>$vo['type_id']))}" target='main'>{$vo.type_name}</A>
+			<else/>
+			{$vo.type_name}
+			</eq>
 			</TD>
 		</TR>
 		</volist>
