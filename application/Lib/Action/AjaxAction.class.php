@@ -10,6 +10,12 @@ class AjaxAction extends Action {
 		$user_id = session('user_id');
 		if(!$user_id)$this->returnAjaxMsg(101,'请登录后进行操作！');
     }
+	//获取时间段
+	public function getYearQuarter(){
+		$town_id = I('town_id','');
+		if(!$town_id){echo '';exit();}
+		echo D('Info')->getYears(array('town_id'=>$town_id));
+	}
 	//删除学校
 	public function delSchool(){
 		$school_id = I('school','');

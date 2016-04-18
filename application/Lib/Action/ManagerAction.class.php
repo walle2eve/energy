@@ -125,6 +125,41 @@ class ManagerAction extends Action {
 		//
 		$this->display();
 	}
+	//根据登录用户类型和时间段查看已填报和未填报的学校
+	//
+	public function showAddStatus(){
+		$user_kind = session('user_kind');
+		if($user_kind != 301010 && $user_kind != 301020)$this->showStatus('您没有权限执行本操作！');
+		
+		$town_id = I('town_id','');
+		if($user_kind == 301020)$town_id = session('org_id');
+		$townSelect = D('Town')->getTownSelect($town_id);
+		$this->assign('townSelect',$townSelect);
+		
+		$year = '';
+		$$quarter = '';
+		
+		$year_quarter = I('year_quarter','');
+		if($year_quarter != '')list($year,$quarter) = explode('_',$year_quarter);
+		
+		$map['town_id'] = $town_id;
+		$map['year'] = $year;
+		$map['quarter'] = $quarter;
+		$map['add_status'] = I('add_status','all');
+		
+		$yearSelect = D('Info')->getYears($map);
+		$this->assign('yearSelect',$yearSelect);
+		$this->assign('add_status',$map['add_status']);
+		$this->assign('year',$year);
+		$this->assign('quarter',$quarter);
+		
+		$info = D('School')->getAddStatus($map);
+		
+		$this->assign('page',$info['page']);
+		$this->assign('list',$info['list']);
+		
+		$this->display();
+	}
 	private function showStatus($msg,$status = 'error',$referUrl = ''){
 		if($referUrl == '')$referUrl = $this->referUrl;
 		$this->$status($msg,$referUrl);

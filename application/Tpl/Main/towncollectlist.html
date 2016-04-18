@@ -1,8 +1,11 @@
 <include file="Public:base" />
 
-<title>区县年度信息汇总————{U:('SITE_SUBJECT')}</title>
+<title>区县年度信息汇总—{:C('SITE_SUBJECT')}</title>
 
 <script type="text/javascript">
+$(document).ready(function(){
+	$('select').select2();
+});
 function selYears(year){
 	//if(year == '')return;
 	location.href="{:U('Main/towncollectlist',array('town_id'=>$town_id))}?selYear="+year;
@@ -33,7 +36,7 @@ function selYears(year){
             <tr>
               <td><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0" class="right3">
                 <tr>
-                  <td height="16"><table width="760" border="0" cellspacing="0" cellpadding="0">
+                  <td height="16"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td height="10">
                       </td>
@@ -42,15 +45,15 @@ function selYears(year){
                   </td>
                 </tr>
                 <tr>
-                  <td><table width="760" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
+                  <td><table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
                     <tr class="right22">
                       <td colspan="8" height="26" align="left" bgcolor="#FFFFFF"><select onchange="selYears(this.value)"><option value="">--按时间查看--</option>{$years}</select></td>
                       </tr>
                     <tr class="right22">
-                      <td width="91"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">区县标识码</td>
-                      <td width="177"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">区县名称</td>
-                      <td width="110"  height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">汇总年度</td>
-                      <td  height="26" colspan="2" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">操作</td>
+                      <td width="25%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">区县标识码</td>
+                      <td width="25%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">区县名称</td>
+                      <td width="25%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">汇总年度</td>
+                      <td  colspan="2" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">操作</td>
                       </tr>
 				<volist name="list" id="vo">
                     <tr>

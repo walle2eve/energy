@@ -47,6 +47,7 @@ class TownYearCollectModel extends Model{
 	}
 	//获取区县年度汇总数据列表
 	public function getTownCollectList($map = array()){
+		
 		$town_id = isset($map['town_id'])?$map['town_id']:0;
 		$user_kind = session('user_kind');
 
@@ -62,7 +63,7 @@ class TownYearCollectModel extends Model{
 		}
 
 		$where = ' i.is_del = 0 ';
-		$where .= $town_id ? ' AND i.town_id = ' . $town_id : '';
+		$where .= $town_id  <> 0 ? ' AND i.town_id = ' . $town_id : '';
 		$where .= $map['year'] ? ' AND i.year = ' . $map['year'] : '';
 
 		$count = $this->alias('i')->join('LEFT JOIN energy_town t ON t.town_id = i.town_id')->where($where)->count();    //计算总数
@@ -70,7 +71,7 @@ class TownYearCollectModel extends Model{
 		$p = new Page ($count, C('PAGE_LISTROWS'));
 
 		$list = $this->alias('i')->field('i.id,i.town_id,t.town_name,i.year')->join('LEFT JOIN energy_town t ON t.town_id = i.town_id')->where($where)->order('t.town_id,year')->limit($p->firstRow.','.$p->listRows)->select();
-		
+		//print_r($_SESSION);
 		//echo M()->getlastsql();
 		
 		$page = $p->show();

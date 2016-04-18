@@ -413,6 +413,7 @@ class InfoModel extends Model{
 			$selectstr .= $yeartype=='jidu'?$row['year']."年第".$row['quarter']."季度":$row['year']."年".(($row['quarter']==2)?'下':'上')."半年";
 			$selectstr .= "</option>";
 		}
+		//echo M()->getlastsql();
 		return $selectstr;
 	}
 	public function getYearQuarters($town_id){

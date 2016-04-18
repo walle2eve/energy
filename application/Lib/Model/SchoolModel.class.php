@@ -1,5 +1,34 @@
 <?php
 class SchoolModel extends Model{
+	//根据区县ID和年度时间段获取已上报和未上报的学校情况
+	public function getAddStatus($map = array()){
+		$town_id = isset($map['town_id'])?$map['town_id']:0;
+		$year = isset($map['year'])?$map['year']:0;
+		$quarter = isset($map['quarter'])?$map['quarter']:0;
+		$add_status = isset($map['add_status'])?$map['add_status']:'0';
+		
+		$having = '';
+		
+		if($add_status == 1){
+			$having = ' having countid > 0';
+		}elseif($add_status == -1){
+			$having = ' having countid = 0';
+		}
+			
+		$count = $this->query("SELECT COUNT(1) as num FROM (select town.town_name,s.school_name,dict.type_name AS school_type_name,count(i.school_id) as countid,i.add_time from energy_school s  left join  energy_info i on i.school_id = s.school_id and i.`year` = %d and i.`quarter` = %d left join energy_school_type dict on dict.type_id = s.school_type left join energy_town town on town.town_id = s.town_id where s.town_id = %d and s.is_del = 0 group by s.school_id " .$having. " order by s.orderby) TMP_TB",array($year,$quarter,$town_id));
+		
+		if(isset($count[0]['num'])) $count = $count[0]['num'];
+		else $count = 0;
+		
+		import("ORG.Util.Page");
+		$p = new Page ($count, C('PAGE_LISTROWS'));
+		$page = $p->show();
+		$limit  = $p->firstRow.','.$p->listRows;
+		
+		$list = $this->query("SELECT town.town_name,s.school_code,s.school_name,dict.type_name AS school_type_name,COUNT(i.school_id) AS countid,i.add_time,i.year,i.quarter FROM energy_school s LEFT JOIN  energy_info i ON i.school_id = s.school_id AND i.`year` = %d AND i.`quarter` = %d LEFT JOIN energy_school_type dict ON dict.type_id = s.school_type LEFT JOIN  energy_town town ON town.town_id = s.town_id WHERE s.town_id = %d AND s.is_del = 0 GROUP BY s.school_id " .$having. " ORDER BY s.orderby LIMIT ".$limit,array($year,$quarter,$town_id));
+		
+		return array('page'=>$page,'list'=>$list);
+	}
 	/**
 	* 2016年需求变化，现将所有涉及学校办学类型SCHOOL_TYPE字段的信息全部转移至energy_school_type表
 	* 原energy_dict表 字典值201 弃用

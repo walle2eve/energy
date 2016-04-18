@@ -80,7 +80,7 @@ class UserModel extends Model{
   	foreach($userinfo as $key=>$val){
   		$userinfo[$key] = addslashes($val);
   	}
-
+	$userinfo['update_time'] = date('Y-m-d H:i:s');
   	$return = $this->where('user_id = %d',session('user_id'))->save($userinfo);
   	if($return === false)return array('errno'=>2,'errtitle'=>'修改失败！');
   	return array('errno'=>0);

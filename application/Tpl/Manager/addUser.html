@@ -1,5 +1,11 @@
 <include file="Public:base" />
-
+<style>
+.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
+.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
+.right3{font-size:14px;}
+.right22 td{height:36px;text-align:center; vertical-align:middle;background:#fff;}
+img{ cursor:pointer; }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -104,12 +110,8 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 								  <td width="60%"><input type="text" name="login_pwd" id="login_pwd" maxlength="40"></td>
 								  </tr>
 								  <tr class="right22">
-								  <td width="40%" height="36">学校地址：</td>
+								  <td width="40%" height="36">单位地址：</td>
 								  <td width="60%"><input type="text" name="address" id="address" maxlength="255"></td>
-								  </tr>
-								  <tr class="right22">
-								  <td width="40%" height="36" bgcolor="#FFFFFF" >地址编码：</td>
-								  <td width="60%" bgcolor="#FFFFFF" ><input type="text" name="address_code" id="address_code" maxlength="40"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" bgcolor="#FFFFFF" ><font color="red">*</font>用户类别：</td>
@@ -130,22 +132,6 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 									<option value="0">请选择账号所属单位</option>
 									</select>
 								  </td>
-								  </tr>
-								  <tr class="right22">
-								  <td width="40%" height="36">负责人部门：</td>
-								  <td width="60%" ><input type="text" name="manage_unit" id="manage_unit" maxlength="100"></td>
-								  </tr>
-								  <tr class="right22">
-								  <td width="40%" height="36">负责人姓名：</td>
-								  <td width="60%" align="center"><input type="text" name="manage_name" id="manage_name" maxlength="100"></td>
-								  </tr>
-								  <tr class="right22">
-								  <td width="40%" height="36" >负责人电话：</td>
-								  <td width="60%" ><input type="text" name="manage_phone" id="manage_phone" maxlength="100"></td>
-								  </tr>
-								  <tr class="right22">
-								  <td width="40%" height="36" >负责人email：</td>
-								  <td width="60%"><input type="text" name="manage_email" id="manage_email" maxlength="100"></td>
 								  </tr>
 							  </table></td>
 							</tr>

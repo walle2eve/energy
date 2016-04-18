@@ -468,6 +468,8 @@ class MainAction extends Action {
 		$map['town_id'] = I('get.town_id',0);
 		$map['year'] = I('get.selYear',0);
 		
+		if(session('user_kind') == 301020)$map['town_id'] = session('org_id');
+		
 		//年度下拉菜单
 		$years = D('Info')->getYear($map['year']);
 		$this->assign('town_id',$map['town_id']);
