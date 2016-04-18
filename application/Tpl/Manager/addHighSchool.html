@@ -66,8 +66,8 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                 <tr>
                   <td style="line-height:300%;">
 					<form action="{:U('Manager/addHighSchool')}" method="post" id="addForm">
-						<font color="red">*</font>学校标识码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="school_code" id="school_code"  maxlength="18"><br />
-						<font color="red">*</font>学校名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="school_name" id="school_name" maxlength="200"><br />
+						<font color="red">*</font>学校标识码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="school_code" id="school_code"  maxlength="18"><br />
+						<font color="red">*</font>学校名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="school_name" id="school_name" maxlength="200"><br />
 						学校地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="address" id="address" maxlength="255"><br />
 						地址编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="address_code" id="address_code" maxlength="40"><br />
 						<font color="red">*</font>学校类别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -79,6 +79,14 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 						</select><br />
 						学校所属单位：&nbsp;&nbsp;&nbsp;
 						<input type="text" name="unit_name" id="unit_name" maxlength="40"><br />
+						负责人部门：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="manage_unit" id="manage_unit" maxlength="100"><br />
+						负责人姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="manage_name" id="manage_name" maxlength="100"><br />
+						负责人电话：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="manage_phone" id="manage_phone" maxlength="100"><br />
+						负责人email：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="manage_email" id="manage_email" maxlength="100"><br />
 
 						<input type="button" id="submitBtn" value="确认"> <input type="reset" value="重置">
 					</form>

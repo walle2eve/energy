@@ -1,5 +1,6 @@
 <?php
 class SchoolTypeModel extends Model{
+	// 学校类型（高校）下拉框
 	public function getOptions($upid=0,$level=0,$optionstr='',$t='default'){
 		//str_pad
 		$data = $this->where('up_id = %d AND is_del = 0',$upid)->order('order_no,type_id ')->select();
