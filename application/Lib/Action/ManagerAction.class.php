@@ -43,7 +43,7 @@ class ManagerAction extends Action {
 		$highSchoolTypeOptions = D('SchoolType')->getOptions(0,0,'','list',110000,$school_type);
 		$this->assign('highSchoolTypeOptions',$highSchoolTypeOptions);
 
-		$school = D('School')->getSchoolList($townid,$school_type,$school_id);
+		$school = D('School')->getSchoolList($townid,$school_type,$school_id,'list');
 
 		$this->assign('list',$school['list']);
 		$this->assign('page',$school['page']);

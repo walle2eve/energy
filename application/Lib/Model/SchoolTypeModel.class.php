@@ -121,7 +121,7 @@ class SchoolTypeModel extends Model{
 		//list , 不允许选择的类型 
 		$t = in_array($t,array('default','edit','list')) ? $t : 'default';
 		//str_pad
-		$data = $this->where('up_id = %d AND is_del = 0',$upid)->order('order_no,type_id')->select();
+		$data = $this->where('up_id = %d AND town_id = %d AND is_del = 0',$upid,$town_id)->order('order_no,type_id')->select();
 		
 		foreach($data as $row){
 			$levelstr = str_pad('',$level,'-') . ' ';

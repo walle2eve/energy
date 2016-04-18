@@ -43,15 +43,16 @@ class SchoolModel extends Model{
 	  return array('errno'=>3,'errtitle'=>'学校信息修改失败！');
   }
    //学校列表
-	public function getSchoolList($town_id=0,$school_type=0,$school_id =0){
+	public function getSchoolList($town_id=0,$school_type=0,$school_id =0,$ac="option"){
+		// ac 控制是否分页 list 列表显示需要分页，option 下拉框显示无需分页
 		$user_kind = session('user_kind');
 		$where = '';
 		switch($user_kind){
 			case '301010':
-				$where = 'town_id = '.$town_id;
+				$where = 's.town_id = '.$town_id;
 				break;
 			case '301020':
-				$where = 'town_id = '.session('org_id');
+				$where = 's.town_id = '.session('org_id');
 				break;
 			case '301030':
 			case '301040':
@@ -64,18 +65,28 @@ class SchoolModel extends Model{
 		if($school_type)$where .= ' AND school_type = '.$school_type;
 		if($school_id)$where .= ' AND school_id = '.$school_id;
 		
-		$where .= ' AND is_del = 0';
+		$where .= ' AND s.is_del = 0';
 		
-		$count =  $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->where($where)->count();    //计算总数
 		
-		import("ORG.Util.Page");
+		
 
-		$p = new Page ($count, C('PAGE_LISTROWS'));
 		
-		$page = $p->show();
+		if($ac == 'list'){
+			$count =  $this->alias('s')->join('LEFT JOIN energy_school_type ed ON ed.type_id = s.school_type')->where($where)->count();    //计算总数
+			
+			import("ORG.Util.Page");
+
+			$p = new Page ($count, C('PAGE_LISTROWS'));
+			
+			$page = $p->show();
+			
+			$limit  = $p->firstRow.','.$p->listRows;
+		}else{
+			$limit = '';
+		}
 		
-		$list = $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->field('s.*,ed.dict_name AS school_type_name')->where($where)->order('orderby DESC')->limit($p->firstRow.','.$p->listRows)->select();
-		
+		$list = $this->alias('s')->join('LEFT JOIN energy_school_type ed ON ed.type_id = s.school_type')->field('s.*,ed.type_name AS school_type_name')->where($where)->order('orderby DESC')->limit($limit)->select();
+
 		return array('page'=>$page,'list'=>$list);
 	}
 	public function getSchoolListByids($andWhere){
