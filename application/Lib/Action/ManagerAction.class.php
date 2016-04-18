@@ -40,19 +40,24 @@ class ManagerAction extends Action {
 		$school_type = I('school_type',0);
 		$school_id = I('school_id',0);
 		
-		$highSchoolType = D('Dict')->getDictListByUpid(201,'AND left(dict_id,4)=2011');
-		$this->assign('highSchoolType',$highSchoolType);
+		$highSchoolTypeOptions = D('SchoolType')->getOptions(0,0,'','list',110000,$school_type);
+		$this->assign('highSchoolTypeOptions',$highSchoolTypeOptions);
 
-		$school_list = D('School')->getSchoolList($townid,$school_type,$school_id);
-		$this->assign('school_list',$school_list);
+		$school = D('School')->getSchoolList($townid,$school_type,$school_id);
+
+		$this->assign('list',$school['list']);
+		$this->assign('page',$school['page']);
 		
 		$this->assign('school_type',$school_type);
 		$this->display(); 
 	}
 	//public 添加高校
 	public function addHighSchool(){
-		$highSchoolType = D('Dict')->getDictListByUpid(201,'AND left(dict_id,4)=2011');
-		$this->assign('highSchoolType',$highSchoolType);
+		//$highSchoolType = D('Dict')->getDictListByUpid(201,'AND left(dict_id,4)=2011');
+		//$this->assign('highSchoolType',$highSchoolType);
+		
+		$highSchoolTypeOptions = D('SchoolType')->getOptions(0,0,'','list');
+		$this->assign('highSchoolTypeOptions',$highSchoolTypeOptions);
 		
 		if(IS_POST){
 			$data = I('post.',array());
@@ -62,7 +67,7 @@ class ManagerAction extends Action {
 			$school_type = I('school_type');
 			
 			if(!$school_code){
-				return array('errno'=>1,'errtitle'=>'请填写学校编码');
+				return array('errno'=>1,'errtitle'=>'请填写学校标识');
 			}
 			if(!$school_name){
 				return array('errno'=>1,'errtitle'=>'请填写学校名称');
@@ -73,6 +78,40 @@ class ManagerAction extends Action {
 			$return = D('School')->addHighSchool($data);
 			return $this->ajaxReturn($return);
 		}
+		
+		$this->display();
+	}
+	//public 添加高校
+	public function editSchool(){
+		
+		$school_id = I('id','');
+		
+		if(!$school_id)$this->error('学校参数错误！');
+		
+		$info = D('School')->getInfo($school_id);
+		if(!$info)$this->error('没有找到该校的信息！');
+		$this->assign('info',$info);
+		
+		if(IS_POST){
+			$data = I('post.',array());
+			
+			$school_name = I('school_name');
+			$school_type = I('school_type');
+			
+			if(!$school_name){
+				return array('errno'=>1,'errtitle'=>'请填写学校名称');
+			}
+			if(!$school_type){
+				return array('errno'=>1,'errtitle'=>'请选择学校类型');
+			}
+			$return = D('School')->editSchool($data);
+			return $this->ajaxReturn($return);
+		}
+		
+
+		
+		$highSchoolTypeOptions = D('SchoolType')->getOptions(0,0,'','list',$info['town_id'],$info['school_type']);
+		$this->assign('highSchoolTypeOptions',$highSchoolTypeOptions);
 		
 		$this->display();
 	}

@@ -6,7 +6,6 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	$('select').select2({ width: 'resolve' });
 
   $('#submitBtn').click(function(){
-    var school_code = $('#school_code').val();
     var school_name = $('#school_name').val();
     var school_type = $('#school_type').val();
 	
@@ -30,7 +29,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 				return false;
 			}
 			layer.alert(response.errtitle,{icon:1},function(){
-				parent.layer.close(index);
+			//	parent.layer.close(index);
 			});
 		},
 		error : function(){
@@ -62,7 +61,7 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
           <tr>
               <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td height="40" valign="top" class="right1">添加高校</td>
+                  <td height="40" valign="top" class="right1">修改学校信息</td>
                 </tr>
                 <tr>
                   <td style="line-height:300%;">
@@ -79,22 +78,22 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 							  </td>
 							</tr>
 							<tr height="14">
-							  <td><form action="{:U('Manager/addHighSchool')}" method="post" id="addForm"><table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
+							  <td><form action="{:U('Manager/editSchool')}" method="post" id="addForm"><table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
 								<tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" bgcolor="#FFFFFF" ><font color="red">*</font>学校标识码：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="school_code" id="school_code"  maxlength="18"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" id="school_code" value="{$info.school_code}" maxlength="18"><input type="hidden" name="id" value="{$info.school_id}"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" ><font color="red">*</font>学校名称：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="school_name" id="school_name" maxlength="200"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="school_name" id="school_name" value="{$info.school_name}" maxlength="200"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >学校地址：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="address" id="address" maxlength="255"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="address" id="address" value="{$info.address}" maxlength="255"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >地址编码：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="address_code" id="address_code" maxlength="40"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="address_code" id="address_code" value ="{$info.address_code}" maxlength="40"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" ><font color="red">*</font>学校类别：</td>
@@ -107,23 +106,23 @@ var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 								  </tr>
 								<tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >学校所属单位：</td>
-								  <td width="60%"  align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="unit_name" id="unit_name" maxlength="100"></td>
+								  <td width="60%"  align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="unit_name" id="unit_name" value="{$info.unit_name}" maxlength="100"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >负责人部门：</td>
-								  <td width="60%"  align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_unit" id="manage_unit" maxlength="100"></td>
+								  <td width="60%"  align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_unit" id="manage_unit"  value="{$info.manage_unit}"maxlength="100"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >负责人姓名：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_name" id="manage_name" maxlength="100"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_name" id="manage_name" value="{$info.manage_name}" maxlength="100"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >负责人电话：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_phone" id="manage_phone" maxlength="100"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_phone" id="manage_phone" value="{$info.manage_phone}" maxlength="100"></td>
 								  </tr>
 								  <tr class="right22">
 								  <td width="40%" height="36" line-height="36" align="center" vertical-align="middle" bgcolor="#FFFFFF" >负责人email：</td>
-								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_email" id="manage_email" maxlength="100"></td>
+								  <td width="60%" align="center"  vertical-align="middle" bgcolor="#FFFFFF" ><input type="text" name="manage_email" id="manage_email" value="{$info.manage_email}" maxlength="100"></td>
 								  </tr>
 							  </table></td>
 							</tr>

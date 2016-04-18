@@ -5,7 +5,7 @@ class SchoolModel extends Model{
 	  //校验学校编码是否已经存在
 	  $is_school = $this->where("school_code = '%s'",$data['school_code'])->getField('school_code');
 	  
-	  if($is_school)return array('errno'=>201,'errtitle'=>'学校编码已经存在！');
+	  if($is_school)return array('errno'=>201,'errtitle'=>'学校标识码已经存在！');
 	  
 	  $is_school = $this->where("school_name = '%s'",$data['school_name'])->getField('school_name');
 	  
@@ -19,7 +19,30 @@ class SchoolModel extends Model{
 	  }
 	  return array('errno'=>3,'errtitle'=>'高校添加失败！');
   }
-  
+  //修改学校信息
+  public function editSchool($data){
+	  $is_school = false;
+	  
+	  //校验学校编码是否已经存在
+	  
+	  $school_id = $data['id'];
+	  
+	  unset($data['id']);
+	  
+	  $is_school = $this->where("school_name = '%s' AND school_id <> %d",$data['school_name'],$school_id)->getField('school_name');
+	  
+	  if($is_school)return array('errno'=>202,'errtitle'=>'学校名称已经存在！');
+	  
+	  $data['update_time'] = date('Y-m-d H:i:s');
+	  
+	  $return  = $this->where('school_id = %d',array($school_id))->save($data);
+	  
+	  if($return){
+		  return array('errno'=>0,'errtitle'=>'学校信息修改成功！');
+	  }
+	  return array('errno'=>3,'errtitle'=>'学校信息修改失败！');
+  }
+   //学校列表
 	public function getSchoolList($town_id=0,$school_type=0,$school_id =0){
 		$user_kind = session('user_kind');
 		$where = '';
@@ -41,7 +64,19 @@ class SchoolModel extends Model{
 		if($school_type)$where .= ' AND school_type = '.$school_type;
 		if($school_id)$where .= ' AND school_id = '.$school_id;
 		
-		return $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->field('s.*,ed.dict_name AS school_type_name')->where($where)->order('orderby DESC')->select();
+		$where .= ' AND is_del = 0';
+		
+		$count =  $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->where($where)->count();    //计算总数
+		
+		import("ORG.Util.Page");
+
+		$p = new Page ($count, C('PAGE_LISTROWS'));
+		
+		$page = $p->show();
+		
+		$list = $this->alias('s')->join('LEFT JOIN energy_dict ed ON ed.dict_id = s.school_type')->field('s.*,ed.dict_name AS school_type_name')->where($where)->order('orderby DESC')->limit($p->firstRow.','.$p->listRows)->select();
+		
+		return array('page'=>$page,'list'=>$list);
 	}
 	public function getSchoolListByids($andWhere){
 		$where = ' 1=1';
@@ -54,12 +89,14 @@ class SchoolModel extends Model{
 	public function getSchoolSelect($town_id=0,$school_id=0,$school_type){
 		$schoolList = $this->getSchoolList($town_id,$school_type);
 		$selstr = '';
-		foreach($schoolList as $v){
-			$selected = '';
-			if($school_id == $v['school_id']){
-				$selected = 'selected=selected';
+		if(isset($schoolList['list']) && !empty($schoolList['list'])){
+			foreach($schoolList['list'] as $v){
+				$selected = '';
+				if($school_id == $v['school_id']){
+					$selected = 'selected=selected';
+				}
+				$selstr .= "<option value=\"{$v['school_id']}\" {$selected}>{$v['school_name']}</option>";
 			}
-			$selstr .= "<option value=\"{$v['school_id']}\" {$selected}>{$v['school_name']}</option>";
 		}
 		return $selstr;
 	}
@@ -68,6 +105,11 @@ class SchoolModel extends Model{
 		if(!$school_id) return false;
 		$schoolInfo = $this->alias('s')->field('s.town_id,s.school_code,s.school_name,s.school_type,d.dict_name as school_type_name')->join('energy_dict d on d.dict_id = s.school_type')->where('s.school_id = %d',array($school_id))->find();
 		return $schoolInfo;
+	}
+	
+	//获取学校xinxi
+	public function getInfo($school_id){
+		return $this->where('school_id = %d',array($school_id))->find();
 	}
 	public function getSchoolAndInfoList($map = array()){
 
@@ -106,6 +148,8 @@ class SchoolModel extends Model{
 		if($year)$where .= ' AND i.year = '.$year;
 		if($quarter)$where .= ' AND i.quarter = '.$quarter;
 
+		$where .= ' AND s.is_del = 0';
+		
 		$count =  $this->alias('s')->join('LEFT JOIN energy_town t ON t.town_id = s.town_id')->join('LEFT JOIN energy_dict d ON d.dict_id = s.school_type')->join('LEFT JOIN energy_info i ON i.school_id = s.school_id')->where($where)->count();    //计算总数
 		
 		import("ORG.Util.Page");

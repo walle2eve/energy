@@ -48,32 +48,21 @@
       width='150' border='0'>
 	  <switch name="vo.menuid">
 		<case value="110000">
-        <TR height='20'>
-          <TD align='middle' width=30><IMG height='9' 
-            src="__PUBLIC__/images/menu_icon.gif" width='9'></TD>
-          <TD><A class='menuChild' 
-            href="{:U('Main/infolist',array('town_id'=>$vo[menuid],'school_type'=>'201102'))}" 
-            target='main'>教育部直属院校</A></TD></TR>
-        <TR height='20'>
-          <TD align='middle' width='30'><IMG height='9' 
-            src="__PUBLIC__/images/menu_icon.gif" width='9'></TD>
-          <TD><A class='menuChild' 
-            href="{:U('Main/infolist',array('town_id'=>$vo[menuid],'school_type'=>'201101'))}" 
-            target='main'>国务院委办属院校</A></TD></TR>
-
-        <TR height=20>
-          <TD align=middle width=30><IMG height=9 
-            src="__PUBLIC__/images/menu_icon.gif" width=9></TD>
-		<TD><A class=menuChild 
-            href="{:U('Main/infolist',array('town_id'=>$vo[menuid],'school_type'=>'201104'))}" 
-            target=main>市属市管院校</A></TD></TR>
-         
-        <TR height='20'>
-          <TD align=middle width=30><IMG height=9 
-            src="__PUBLIC__/images/menu_icon.gif" width=9></TD>
-           <TD><A class='menuChild' 
-            href="{:U('Main/infolist',array('town_id'=>$vo[menuid],'school_type'=>'201103'))}" 
-            target='main'>民办高校及独立学院</A></TD></TR>
+		<volist name="high_school_menu" id="vo">
+		<TR height='20'>
+			<TD align=middle width=30>
+			{$vo.levelstr}
+			<neq name="vo['level']" value="last">
+			<IMG height=9 src="__PUBLIC__/images/menu_bt.jpg" width=9>
+			<else/>
+			<IMG height=9 src="__PUBLIC__/images/menu_icon.gif" width=9>
+			</neq>
+			</TD>
+			<TD>
+			<A class='menuChild' href="{:U('Main/infolist',array('town_id'=>$vo['town_id'],'school_type'=>$vo['type_id']))}" target='main'>{$vo.type_name}</A>
+			</TD>
+		</TR>
+		</volist>
         <TR height=4>
              <TD colSpan=2></TD></TR>
 			 </case>

@@ -48,6 +48,10 @@ class MainAction extends Action {
 		}
 		$menulist = $this->MenuList($user_kind_s);
 
+		//高校学校类型
+		$high_school_menu = D('SchoolType')->getZtreeMenu();
+		$this->assign('high_school_menu',$high_school_menu);
+		
 		$this->assign('user_kind',$user_kind);
 		$this->assign('user_kind_s',$user_kind_s);
 		$this->assign('menulist',$menulist);

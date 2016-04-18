@@ -1,22 +1,6 @@
 <?php
 class SchoolTypeModel extends Model{
-	// 学校类型（高校）下拉框
-	public function getOptions($upid=0,$level=0,$optionstr='',$t='default'){
-		//str_pad
-		$data = $this->where('up_id = %d AND is_del = 0',$upid)->order('order_no,type_id ')->select();
-		foreach($data as $row){
-			$levelstr = str_pad('',$level,'-') . ' ';
-			if($t == 'edit' && $row['up_id'] == 0) $disabled = "disabled=true";
-			else $disabled = '';
-			$optionstr .= "<option value=" . $row['type_id'] . " ".$disabled.">" . $levelstr.$row['type_name'] . "</option>";
-			if($this->getSonCount($row['type_id'])){
-				$level2 = $level + 1;
-				$optionstr = $this->getOptions($row['type_id'],$level2,$optionstr);
-			}
-			//$optionstr .= $optionstr2;
-		}
-		return $optionstr;
-	}
+
 	public function getSonCount($typeid){
 		return $this->where('up_id = %d AND is_del = 0',$typeid)->count();
 	}
@@ -100,27 +84,65 @@ class SchoolTypeModel extends Model{
 		}
 		else return array('errno'=>22,'errtitle'=>'类型删除失败');
 	}
-	//加载类型ztree
-	public function getTypesZtree($up_id=0){
-		$info = $this->field('type_id AS id,type_name AS name,up_id AS pId')->where('is_del = 0')->select();
+	//加载类型ztree , json
+	public function getTypesZtree($town_id=110000){
+		$info = $this->field('type_id AS id,type_name AS name,up_id AS pId')->where('is_del = 0 AND town_id = %d',$town_id)->select();
 		foreach($info as &$row){
-			if($row['pid'] == 0)$row['open'] = true;
+			if($row['pId'] == 0)$row['open'] = true;
 		}
 		return $info;
 	}
-	/**
-	public function getTypesZtree($up_id = 0,$ar = array()){
-		$data = $this->field('type_id AS id,type_name AS name,up_id AS pId')->where('up_id = %d AND is_del = 0',$up_id)->order('order_no,type_id ')->select();
-		//echo M()->getlastsql();
+	//菜单部分
+	public function getZtreeMenu($up_id = 0,$level=0,$town_id=110000,$ar = array()){
+		$data = $this->field('type_id,type_name,up_id,town_id')->where('up_id = %d AND town_id = %d AND is_del = 0',$up_id,$town_id)->order('order_no,type_id ')->select();
 		foreach($data as $row){
-			if($row['pId'] == 0)$row['open'] = true;
+			$levelstr = str_pad('',$level," ");
+			$count = $this->getSonCount($row['type_id']);
+			$row['level'] = $level;
+			$row['levelstr'] = $levelstr;
+			if($count==0){
+				$row['level'] = 'last';
+			}
+			
 			array_push($ar,$row);
-			if($this->getSonCount($row['id'])){
-				$ar = $this->getTypesZtree($row['id'],$ar);
+			
+			if($count > 0){
+				$level2 = $level + 1;
+				$ar = $this->getZtreeMenu($row['type_id'],$level2,$town_id,$ar);
 			}
 		}
 		return $ar;
 	}
-	**/
+	// 学校类型（高校）下拉框
+	public function getOptions($upid=0,$level=0,$optionstr='',$t='default',$town_id=110000,$type_id=''){
+		//edit , 不能修改的类型
+		//list , 不允许选择的类型 
+		$t = in_array($t,array('default','edit','list')) ? $t : 'default';
+		//str_pad
+		$data = $this->where('up_id = %d AND is_del = 0',$upid)->order('order_no,type_id')->select();
+		
+		foreach($data as $row){
+			$levelstr = str_pad('',$level,'-') . ' ';
+			//查找是否有子类型
+			$count = $this->getSonCount($row['type_id']);
+			$disabled = '';
+			$selected = '';
+			//不能修改根类型
+			if($t == 'edit' && $row['up_id'] == 0 || ($t == 'list' && $count > 0)) {
+				$disabled = "disabled=true";
+			}
+			
+			if($row['type_id'] == $type_id)$selected = 'selected';
+
+			//只能选择没有没有子目录的
+			$optionstr .= "<option value=" . $row['type_id'] . " " . $disabled . $selected . ">" . $levelstr.$row['type_name'] . "</option>";
+			
+			if($count > 0){
+				$level2 = $level + 1;
+				$optionstr = $this->getOptions($row['type_id'],$level2,$optionstr,$t,$row['town_id'],$type_id);
+			}
+		}
+		return $optionstr;
+	}
 }
 ?>
