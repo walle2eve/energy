@@ -1,5 +1,9 @@
 <?php
 class SchoolModel extends Model{
+	/**
+	* 2016年需求变化，现将所有涉及学校办学类型SCHOOL_TYPE字段的信息全部转移至energy_school_type表
+	* 原energy_dict表 字典值201 弃用
+	*/
   public function addHighSchool($data){
 	  $is_school = false;
 	  //校验学校编码是否已经存在
@@ -42,6 +46,26 @@ class SchoolModel extends Model{
 	  }
 	  return array('errno'=>3,'errtitle'=>'学校信息修改失败！');
   }
+  //shanchu学校信息
+  public function delSchool($school_id){
+
+	if(!$school_id)return array('errno'=>222,'errtitle'=>'参数不正确！');
+		
+	  $is_school = $this->where("school_id = %d",$school_id)->getField('school_name');
+	  
+	  if(!$is_school)return array('errno'=>232,'errtitle'=>'学校信息不存在！');
+	  
+	  $data['is_del']  = 1;
+	  
+	  $data['update_time'] = date('Y-m-d H:i:s');
+	  
+	  $return  = $this->where('school_id = %d',array($school_id))->save($data);
+	  
+	  if($return){
+		  return array('errno'=>0,'errtitle'=>'删除学校成功');
+	  }
+	  return array('errno'=>3,'errtitle'=>'删除学校失败');
+  }
    //学校列表
 	public function getSchoolList($town_id=0,$school_type=0,$school_id =0,$ac="option"){
 		// ac 控制是否分页 list 列表显示需要分页，option 下拉框显示无需分页
@@ -67,9 +91,6 @@ class SchoolModel extends Model{
 		
 		$where .= ' AND s.is_del = 0';
 		
-		
-		
-
 		
 		if($ac == 'list'){
 			$count =  $this->alias('s')->join('LEFT JOIN energy_school_type ed ON ed.type_id = s.school_type')->where($where)->count();    //计算总数
@@ -114,7 +135,7 @@ class SchoolModel extends Model{
 
 	public function getSchoolOtherInfo($school_id){
 		if(!$school_id) return false;
-		$schoolInfo = $this->alias('s')->field('s.town_id,s.school_code,s.school_name,s.school_type,d.dict_name as school_type_name')->join('energy_dict d on d.dict_id = s.school_type')->where('s.school_id = %d',array($school_id))->find();
+		$schoolInfo = $this->alias('s')->field('s.town_id,s.school_code,s.school_name,s.school_type,d.type_name as school_type_name')->join('energy_school_type d on d.type_id = s.school_type')->where('s.school_id = %d',array($school_id))->find();
 		return $schoolInfo;
 	}
 	
@@ -156,8 +177,6 @@ class SchoolModel extends Model{
 		
 		}
 		//根据当前类型ID 查找所有该类型下子类型
-		
-		
 		
 		if($school_type){
 			//$school_types = D('SchoolType')->getTypesIdArr($school_type);

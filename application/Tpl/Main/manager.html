@@ -1,13 +1,6 @@
 <include file="Public:base" />
 
 <title>用户登录密码管理——{:C('SITE_SUBJECT')}</title>
-<style>
-.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
-.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
-.right3{font-size:14px;}
-#submitbtn{ cursor:pointer; }
-</style>
-
 <script>
 $(function(){
 	$('select').select2();
@@ -25,24 +18,6 @@ $(function(){
 			}
 		});
 	});
-	/**
-	$('#school_id').bind('change',function (){
-		$('#school_type').empty();
-		$('#school_code').empty();
-		var school_id = this.value;
-		if(school_id == 0)return false;
-		url = "{:U('Ajax/getSchoolOtherInfo')}";
-		url += '?school_id='+school_id;
-		$.get(url, function(result){
-			if(result.errno==0){
-				$('#school_type').html('<option value='+result.data.school_type+'>'+result.data.school_type_name+'</option>');
-				$('#school_code').html('<option value='+result.data.school_code+'>'+result.data.school_code+'</option>');
-			}else{
-				alert(result.errtitle);return false;
-			}
-		});
-	});
-	*/
 	$('#submitbtn').bind('click',function (){
 		if($("#town_id").val() == 0 || (($("#town_id").val() == 110000 || $("#town_id").val() == 110100) && $("#school_id").val() == 0)){
 			layer.alert('请选择要管理的用户');

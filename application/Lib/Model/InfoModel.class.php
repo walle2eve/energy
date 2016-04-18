@@ -76,7 +76,7 @@ class InfoModel extends Model{
 	}
 	//根据学校id获取
 	public function getInfoById($id){
-		$info = M('info i')->field('i.*,s.school_name,t.town_name,d.dict_name AS school_type_name')->join('LEFT JOIN energy_town t ON t.town_id = i.town_id')->join('LEFT JOIN energy_school s ON s.school_id = i.school_id')->join('LEFT JOIN energy_dict d ON d.dict_id = i.school_type')->where('i.is_del = 0 AND id = '.$id)->find();
+		$info = M('info i')->field('i.*,s.school_name,t.town_name,d.type_name AS school_type_name')->join('LEFT JOIN energy_town t ON t.town_id = i.town_id')->join('LEFT JOIN energy_school s ON s.school_id = i.school_id')->join('LEFT JOIN energy_school_type d ON d.type_id = i.school_type')->where('i.is_del = 0 AND id = '.$id)->find();
 		if(!empty($info)){
 			//市属高校及市教委直属直管单位按照季度上报，其余按照半年度上报
 			$quarterStr = $info['town_id'] == '110000' || $info['town_id'] == '110100' ? $info['quarter'] . '季度' : (($info['quarter']==2?'下':'上').'半年');

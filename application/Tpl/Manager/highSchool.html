@@ -38,6 +38,27 @@ $(function(){
 		  content: '{:U('Manager/addHighSchool')}'
 		});
 	});
+	$('.delSchool').bind('click',function(){
+		var school = $(this).attr('schooldata');
+		if(!school){layer.msg('学校信息错误，无法删除，请刷新页面后重试！',{icon:2});return false;}
+		layer.confirm('您确定要执行删除操作吗？',{
+			btn:['确定','取消']
+		},function(){
+			$.post('{:U('Ajax/delSchool')}',{school:school},function(response){
+					if(response.errno != 0){
+						layer.msg(response.errtitle,{icon:2});
+						return false;
+					}else{
+						layer.alert(response.errtitle,{icon:1},function(){
+							window.location.reload();
+						});
+						return false;
+					}
+			});
+		},function(){
+			layer.close();
+		});
+	});
 	$('#submitbtn').click(function(){
 		$('form').submit();
 	});
@@ -143,7 +164,7 @@ $(function(){
 								  <td>{$vo.manage_phone}</td>
 								  <td>{$vo.manage_name}</td>
 								  <td><img src="__PUBLIC__/images/bianji.gif" width="11" height="11"><a href="{:U('Manager/editSchool',array('id'=>$vo[school_id]))}"> [编辑]</a></td>
-								  <td><img src="__PUBLIC__/images/delete.gif" width="11" height="11"><a href="{:U('Manager/delSchool',array('id'=>$vo[school_id]))}"> [删除]</a></td>
+								  <td><img src="__PUBLIC__/images/delete.gif" width="11" height="11"><a href="javascript:void(0)" class="delSchool" schooldata={$vo[school_id]}> [删除]</a></td>
 								</tr>
 								</volist>
 							  </table></td>

@@ -10,6 +10,12 @@ class AjaxAction extends Action {
 		$user_id = session('user_id');
 		if(!$user_id)$this->returnAjaxMsg(101,'请登录后进行操作！');
     }
+	//删除学校
+	public function delSchool(){
+		$school_id = I('school','');
+		$return = D('School')->delSchool($school_id);
+		$this->ajaxReturn($return);
+	}
 	//加载学校类型
 	public function getTypesJson(){
 		$info = D('SchoolType')->getTypesZtree();

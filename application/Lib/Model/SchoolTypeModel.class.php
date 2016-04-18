@@ -96,15 +96,16 @@ class SchoolTypeModel extends Model{
 	public function getZtreeMenu($up_id = 0,$level=0,$town_id=110000,$ar = array()){
 		$data = $this->field('type_id,type_name,up_id,town_id')->where('up_id = %d AND town_id = %d AND is_del = 0',$up_id,$town_id)->order('order_no,type_id ')->select();
 		foreach($data as $row){
-			$levelstr = str_pad('',$level," ");
+			$levelstr = str_repeat('&nbsp;',$level);
 			$count = $this->getSonCount($row['type_id']);
 			$row['level'] = $level;
 			$row['levelstr'] = $levelstr;
+
 			if($count==0){
-				$row['level'] = 'last';
-			}
-			array_push($ar,$row);
-			if($count > 0){
+				$row['level'] = '9999';
+				array_push($ar,$row);
+			}else{
+				array_push($ar,$row);
 				$level2 = $level + 1;
 				$ar = $this->getZtreeMenu($row['type_id'],$level2,$town_id,$ar);
 			}
