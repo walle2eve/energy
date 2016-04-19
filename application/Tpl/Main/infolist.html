@@ -25,7 +25,9 @@ function selYears(year){
             <td width="62%" height="60" style="color:#43860C; font-size:16px; font-weight:bold;">{:C('SITE_SUBJECT')}</td>
             <td align="" valign="bottom" style="color:#43860C; font-size:16px; font-weight:bold;">
 			<a href="{:U('Main/addInfo')}"><img src="__PUBLIC__/images/sbsj.gif" width="137" height="41" border="0"></a>
+			<if condition="$user_kind eq 301010 OR $user_kind eq 301020">
 			<a href="{:U('Manager/showAddStatus')}"><img src="__PUBLIC__/images/sbsj2.gif" width="137" height="41" border="0"></a>
+			</if>
 			</td>
           </tr>
         </table></td>

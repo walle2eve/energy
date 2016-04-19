@@ -130,7 +130,7 @@ class ManagerAction extends Action {
 	public function showAddStatus(){
 		$user_kind = session('user_kind');
 		if($user_kind != 301010 && $user_kind != 301020)$this->showStatus('您没有权限执行本操作！');
-		
+		//区县下拉菜单
 		$town_id = I('town_id','');
 		if($user_kind == 301020)$town_id = session('org_id');
 		$townSelect = D('Town')->getTownSelect($town_id);
@@ -146,17 +146,19 @@ class ManagerAction extends Action {
 		$map['year'] = $year;
 		$map['quarter'] = $quarter;
 		$map['add_status'] = I('add_status','all');
-		
+		// 时间段下拉菜单
 		$yearSelect = D('Info')->getYears($map);
 		$this->assign('yearSelect',$yearSelect);
 		$this->assign('add_status',$map['add_status']);
 		$this->assign('year',$year);
 		$this->assign('quarter',$quarter);
-		
+		// 添加
 		$info = D('School')->getAddStatus($map);
 		
 		$this->assign('page',$info['page']);
 		$this->assign('list',$info['list']);
+		
+		$this->assign('user_kind',$user_kind);
 		
 		$this->display();
 	}

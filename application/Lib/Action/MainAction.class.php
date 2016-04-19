@@ -460,6 +460,9 @@ class MainAction extends Action {
 
 		$this->assign('page',$infolist['page']);
 		$this->assign('list',$infolist['list']);
+		
+		$this->assign('user_kind',session('user_kind'));
+		
 		$this->display();
 	}
 	//区县年度汇总数据列表2015-02-12
