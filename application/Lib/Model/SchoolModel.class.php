@@ -15,7 +15,7 @@ class SchoolModel extends Model{
 			$having = ' having countid = 0';
 		}
 			
-		$count = $this->query("SELECT COUNT(1) as num FROM (select town.town_name,s.school_name,dict.type_name AS school_type_name,count(i.school_id) as countid,i.add_time from energy_school s  left join  energy_info i on i.school_id = s.school_id and i.`year` = %d and i.`quarter` = %d left join energy_school_type dict on dict.type_id = s.school_type left join energy_town town on town.town_id = s.town_id where s.town_id = %d and s.is_del = 0 group by s.school_id " .$having. " order by s.orderby) TMP_TB",array($year,$quarter,$town_id));
+		$count = $this->query("SELECT COUNT(1) as num FROM (select count(i.school_id) as countid from energy_school s  left join  energy_info i on i.school_id = s.school_id and i.`year` = %d and i.`quarter` = %d left join energy_school_type dict on dict.type_id = s.school_type left join energy_town town on town.town_id = s.town_id where s.town_id = %d and s.is_del = 0 group by s.school_id " .$having. " order by s.orderby) TMP_TB",array($year,$quarter,$town_id));
 		
 		if(isset($count[0]['num'])) $count = $count[0]['num'];
 		else $count = 0;
@@ -25,7 +25,7 @@ class SchoolModel extends Model{
 		$page = $p->show();
 		$limit  = $p->firstRow.','.$p->listRows;
 		
-		$list = $this->query("SELECT town.town_name,s.school_code,s.school_name,dict.type_name AS school_type_name,COUNT(i.school_id) AS countid,i.add_time,i.year,i.quarter FROM energy_school s LEFT JOIN  energy_info i ON i.school_id = s.school_id AND i.`year` = %d AND i.`quarter` = %d LEFT JOIN energy_school_type dict ON dict.type_id = s.school_type LEFT JOIN  energy_town town ON town.town_id = s.town_id WHERE s.town_id = %d AND s.is_del = 0 GROUP BY s.school_id " .$having. " ORDER BY s.orderby LIMIT ".$limit,array($year,$quarter,$town_id));
+		$list = $this->query("SELECT s.town_id,town.town_name,s.school_code,s.school_name,dict.type_name AS school_type_name,COUNT(i.school_id) AS countid,i.add_time,i.year,i.quarter FROM energy_school s LEFT JOIN  energy_info i ON i.school_id = s.school_id AND i.`year` = %d AND i.`quarter` = %d LEFT JOIN energy_school_type dict ON dict.type_id = s.school_type LEFT JOIN  energy_town town ON town.town_id = s.town_id WHERE s.town_id = %d AND s.is_del = 0 GROUP BY s.school_id " .$having. " ORDER BY s.orderby LIMIT ".$limit,array($year,$quarter,$town_id));
 		
 		return array('page'=>$page,'list'=>$list);
 	}
