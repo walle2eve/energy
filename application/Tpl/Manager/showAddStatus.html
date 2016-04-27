@@ -99,13 +99,15 @@ $(document).ready(function(){
 					 </table>
 					<table width="100%" border="0" cellspacing="1" cellpadding="0" style="background-color:#cccccc;">
                     <tr class="right22">
-                      <td width="15%" height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">管理单位</td>
-                      <td width="15%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">学校标识码</td>
+                      <td width="12%" height="26" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">管理单位</td>
+                      <td width="11%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">学校标识码</td>
                       <td width="25%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">学校或单位名称</td>
-                      <td width="10%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">办学类型</td>
-                      <td width="10%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">上报状态</td>
+                      <td width="6%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">办学类型</td>
+                      <td width="5%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">上报状态</td>
 					  <td width="10%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">上报时间段</td>
                       <td width="15%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">数据上报时间</td>
+					  <td width="8%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">负责人</td>
+					  <td width="8%" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">负责人电话</td>
                       <!--<td  height="26" colspan="2" align="center" bgcolor="#FFFFFF" style="background-image:url(__PUBLIC__/images/tab-bj.gif)">操作</td>-->
                       </tr>
 				<volist name="list" id="vo">
@@ -126,6 +128,12 @@ $(document).ready(function(){
 					  </td>
 					  <td align="center" bgcolor="#FFFFFF">
 						{$vo.add_time}
+					  </td>
+					  <td align="center" bgcolor="#FFFFFF">
+						{$vo.link_man}
+					  </td>
+					  <td align="center" bgcolor="#FFFFFF">
+						{$vo.link_phone}
 					  </td>
 						<!--<td colspan="2" align="center" bgcolor="#FFFFFF"><a href="{:U('Main/addInfo')}" >上报</a></td>-->
 					  
