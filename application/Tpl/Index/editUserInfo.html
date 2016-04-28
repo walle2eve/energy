@@ -22,7 +22,26 @@ $(document).ready(function(){
       layer.alert('请填写email！',{icon:2});
       return false;
     }
+<if condition="$user_kind neq 301010">
+    var leader_man = $('#leader_man').val();
+    var leader_phone = $('#leader_phone').val();
+    var leader_email = $('#leader_email').val();
 
+    if($.trim(leader_man) == ''){
+      layer.alert('请填写信息填报负责人姓名！',{icon:2});
+      return false;
+    }
+
+    if($.trim(leader_phone) == ''){
+      layer.alert('请填写信息填报负责人联系电话！',{icon:2});
+      return false;
+    }
+
+    if($.trim(leader_email) == ''){
+      layer.alert('请填写信息填报负责人email！',{icon:2});
+      return false;
+    }
+</if>
     $('#editForm').submit();
   });
 });
@@ -59,6 +78,20 @@ $(document).ready(function(){
 								  <td width="40%" height="36"><font color="red">*</font>email：</td>
 								  <td width="60%"><input type="text" name="link_email" id="link_email" value="{$info.link_email}" maxlength="50"></td>
 								  </tr>
+								<if condition="$user_kind neq 301010">
+								<tr class="right22">
+								  <td width="40%" height="36" >信息上报负责人姓名：</td>
+								  <td width="60%" align="center"><input type="text" name="leader_man" id="leader_man" value="{$info.leader_man}" maxlength="30"></td>
+								  </tr>
+								  <tr class="right22">
+								  <td width="40%" height="36"><font color="red">*</font>信息上报负责人联系电话：</td>
+								  <td width="60%"><input type="text" name="leader_phone" id="leader_phone" value="{$info.leader_phone}" maxlength="40"></td>
+								  </tr>
+								  <tr class="right22">
+								  <td width="40%" height="36"><font color="red">*</font>信息上报负责人email：</td>
+								  <td width="60%"><input type="text" name="leader_email" id="leader_email" value="{$info.leader_email}" maxlength="50"></td>
+								  </tr>
+								  </if>
 						</table></td>
 							</tr>
 							<tr>

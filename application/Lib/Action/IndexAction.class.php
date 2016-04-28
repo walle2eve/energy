@@ -26,7 +26,10 @@ class IndexAction extends Action {
 	public function editUserInfo(){
 		$this->checkLogin();
 		$this->assign('headTitle','个人信息设置');
-
+		
+		$user_kind = session('user_kind');
+		$this->assign('user_kind',$user_kind);
+		
 		$info = D('User')->getUserInfoAll(session('user_id'));
 		$this->assign('info',$info);
 		$this->display();

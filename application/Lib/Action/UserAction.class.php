@@ -51,7 +51,15 @@ class UserAction extends Action {
 		$userinfo['link_man'] = I('link_man','');
 		$userinfo['link_phone'] = I('link_phone','');
 		$userinfo['link_email'] = I('link_email','');
-
+		
+		$user_kind = session('user_kind');
+		
+		if($user_kind <> 301010){
+			$userinfo['leader_man'] = I('leader_man','');
+			$userinfo['leader_phone'] = I('leader_phone','');
+			$userinfo['leader_email'] = I('leader_email','');
+		}
+		
 	    $return = D('User')->editUserInfo($userinfo);
 	    if(0!=$return['errno'])$this->error($return['errtitle']);
    	    $this->success('用户信息修改成功！！');
