@@ -1,10 +1,27 @@
 <?php
 class InfoModel extends Model{
 	public function addInfo($data){
+		$errors = array();
 		$add_time = $data['add_time'];
 		
 		$year = date('Y',strtotime($add_time));
-		
+		if($data['price_errors']!=''){
+			$errors = explode("||",$data['price_errors']);
+			foreach($errors as &$val){
+				if($val == ''){unset($val);continue;}
+				$val = explode(',',$val);
+				foreach($val as &$val2){
+					$val2 = explode(':',$val2);
+				}
+				foreach($val as &$val2){
+					$tmp_a[$val2[0]] = $val2[1];
+				}
+				$tmp_b[] = $tmp_a;
+			}
+			$errors = $tmp_b;
+		}
+		$data['price_errors'] = serialize($errors);
+		//print_r($data);exit();
 		//半年度
 		$quarter = $this->getQuarter(date('n',strtotime($add_time)),$data['school_type']);
 

@@ -85,6 +85,13 @@ class MainAction extends Action {
 			}
 			exit();
 		}
+		// 单价标准 2016-05-05
+		$std = M('std')->field('std_id,std_name,min_price,max_price,price_unit')->select();
+		//print_r($std);
+		foreach($std as $row){
+			$std_arr[$row['std_id']] = $row;
+		}
+		$this->assign('std',json_encode($std_arr));
 		$selectTown = D('Town')->getTownSelect();
 		$this->assign('townSelect',$selectTown);
 		$this->display();

@@ -9,7 +9,32 @@ class ManagerAction extends Action {
 		$user_kind = session('user_kind');
 		$this->assign('user_kind',$user_kind);
 	}
-
+	//设置单价标准
+	public function setStd(){
+		$user_kind = session('user_kind');
+		if($user_kind != 301010)$this->showStatus('您没有权限执行本操作！');
+		$stds = M('std')->select();
+		$this->assign('stdlists',$stds);
+		if(IS_POST && IS_AJAX){
+			$std_id = I('st',0);
+			$data['min_price'] = I('min_price',0);
+			$data['max_price'] = I('max_price',0);
+			$data['input_time'] = date('Y-m-d H:i:s');
+			if(!$std_id){
+				$this->ajaxReturn(array('errno'=>1,'errtitle'=>'参数错误，请刷新后重试'));
+			}
+			if($data['min_price'] > $data['max_price']){
+				$this->ajaxReturn(array('errno'=>2,'errtitle'=>'设置的单价区间最小值不能大于最大值！'));
+			}
+			$return = M('std')->where('std_id = %d',$std_id)->save($data);
+			if($return){
+				$this->ajaxReturn(array('errno'=>0,'errtitle'=>'设置成功！'));
+			}else{
+				$this->ajaxReturn(array('errno'=>9,'errtitle'=>'设置失败请重试！'));
+			}
+		}
+		$this->display('stdList');
+	}
 	public function addUser(){
 		$user_kind = session('user_kind');
 		//根据当前登录用户判断用户拥有的添加权限

@@ -39,7 +39,7 @@
     </table></td>
     <td width="546" style="background-image:url(__PUBLIC__/images/top2.gif)">&nbsp;</td>
     <td style="background-image:url(__PUBLIC__/images/top-bj.gif);text-align:right;padding-right:20px;">&nbsp;<p class="headMenu"><a href="{:U('Main/showAddStatus')}" target="main">首页</a>&nbsp;&nbsp;
-	<eq name="user_kind" value="301010"><a href="{:U('Main/setStandard')}" target="main">设置达标标准</a>&nbsp;&nbsp;</eq><if condition="$user_kind eq 301010 OR $user_kind eq 301020"><a href="{:U('Main/manager')}" target="main">用户管理</a>&nbsp;&nbsp;</if>
+	<eq name="user_kind" value="301010"><!--<a href="{:U('Main/setStandard')}" target="main">设置达标标准</a>--><a href="{:U('Manager/setStd')}" target="main">设置单价</a>&nbsp;&nbsp;</eq><if condition="$user_kind eq 301010 OR $user_kind eq 301020"><a href="{:U('Main/manager')}" target="main">用户管理</a>&nbsp;&nbsp;</if>
 	<a href="{:U('Index/editUserInfo')}" target="main">个人信息</a>&nbsp;&nbsp;
 	<a href="{:U('Index/editPass')}" target="main">修改密码</a>&nbsp;&nbsp;<a href="{:U('Index/logout')}" target="_parent">退出登录</a></p></td>
     <td width="200" style="background-image:url(__PUBLIC__/images/top3.gif)"><table width="100%" border="0" cellspacing="0" cellpadding="0">
