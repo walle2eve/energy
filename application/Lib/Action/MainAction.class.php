@@ -383,6 +383,15 @@ class MainAction extends Action {
 		$info = D('Info')->getInfoById($id);
 		if(empty($info))$this->showStatus('该信息不存在或已被删除！');
 		$this->assign('info',$info);
+		
+		// 单价标准 2016-05-05
+		$std = M('std')->field('std_id,std_name,min_price,max_price,price_unit')->select();
+		//print_r($std);
+		foreach($std as $row){
+			$std_arr[$row['std_id']] = $row;
+		}
+		$this->assign('std',json_encode($std_arr));
+		
 		$this->assign('ac','edit');
 		$this->display('Main:addInfo');	
 	}
