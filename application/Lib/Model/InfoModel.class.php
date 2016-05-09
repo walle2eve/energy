@@ -372,7 +372,7 @@ class InfoModel extends Model{
 	}
 	//高校季度上报，其他半年度上报
 	public function getQuarter($month,$school_type){
-		if(substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012'){//高校，市教委直属直管单位按照季度上报
+		if(substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012' || $school_type < 2010){//高校，市教委直属直管单位按照季度上报
 			return $month%3==0?floor($month/3):ceil($month/3);
 		}else{
 			return $month<=6?1:2;
@@ -396,7 +396,7 @@ class InfoModel extends Model{
 		$quarter = isset($map['quarter'])?$map['quarter']:0;
 
 		//高校、市教委指数直管单位季度上报，其他半年度上报
-		if($town_id == '110000' || $town_id == '110100' || substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012'){
+		if($town_id == '110000' || $town_id == '110100' || substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012' || $school_type < 2010){
 			$yeartype = 'jidu';
 		}else{
 			$yeartype = 'bannian';
