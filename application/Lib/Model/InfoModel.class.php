@@ -2,9 +2,11 @@
 class InfoModel extends Model{
 	public function addInfo($data){
 		$errors = array();
-		$add_time = $data['add_time'];
-		
-		$year = date('Y',strtotime($add_time));
+		print_r($data);exit();
+		//$add_time = $data['add_time'];
+		$data['add_time'] = date('Y-m-d');
+		//$year = date('Y',strtotime($add_time));
+		$year = $data['year'];
 		if($data['price_errors']!=''){
 			$errors = explode("||",$data['price_errors']);
 			foreach($errors as &$val){
@@ -23,8 +25,8 @@ class InfoModel extends Model{
 		$data['price_errors'] = serialize($errors);
 		//print_r($data);exit();
 		//半年度
-		$quarter = $this->getQuarter(date('n',strtotime($add_time)),$data['school_type']);
-
+		//$quarter = $this->getQuarter(date('n',strtotime($add_time)),$data['school_type']);
+		$quarter = $data['quarter'];
 		//检测该学校该学年该季度是否上报过数据
 		$infoId = $this->getInfoByYear($data['school_id'],$year,$quarter);
 		if($infoId){
@@ -105,6 +107,7 @@ class InfoModel extends Model{
 	public function editInfo($data){
 		$id = isset($data['id'])?$data['id']:0;
 		$add_time = $data['add_time'];
+		//print_r($data);exit();
 		$info = $this->getInfoById($id);
 		if(empty($info)){
 			return array('errno'=>1,'errtitle'=>'信息不存在或已被删除');
@@ -114,8 +117,10 @@ class InfoModel extends Model{
 		}
 		unset($data['id']);
 		
-		$year = date('Y',strtotime($add_time));
-		$quarter = $this->getQuarter(date('n',strtotime($add_time)),$info['school_type']);
+		//$year = date('Y',strtotime($add_time));
+		//$quarter = $this->getQuarter(date('n',strtotime($add_time)),$info['school_type']);
+		$year = $data['year'];
+		$quarter = $data['quarter'];
 		
 		$data['year'] = $year;
 		$data['quarter'] = $quarter;

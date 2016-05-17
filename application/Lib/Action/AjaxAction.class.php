@@ -62,8 +62,20 @@ class AjaxAction extends Action {
 	public function getSchoolOtherInfo(){
 		$school_id = I('school_id');
 		$schoolInfo = D('School')->getSchoolOtherInfo($school_id);
-		if(!empty($schoolInfo))$this->returnAjaxMsg(0,'',$schoolInfo);
-		else $this->returnAjaxMsg(1,'学校错误');
+		if(empty($schoolInfo))$this->returnAjaxMsg(1,'学校错误');//
+		// 季度或者半年度下拉菜单
+		if(substr($schoolInfo['school_type'],0,4) == '2011' || substr($schoolInfo['school_type'],0,4) == '2012' || $schoolInfo['school_type'] < 2010){//高校，市教委直属直管单位按照季度上报
+			$schoolInfo['quarterSelect'] = "<option value=''>请选择季度</option>";
+			for($i=1;$i<=4;$i++){
+				$schoolInfo['quarterSelect'] .= "<option value=".$i.">第".$i."季度</option>";
+			}
+		}else{
+			$schoolInfo['quarterSelect'] = "<option value=''>请选择半年度</option>";
+			for($i=1;$i<=2;$i++){
+				$schoolInfo['quarterSelect'] .= "<option value=".$i.">". ($i == 2 ? '下' : '上') ."半年</option>";
+			}
+		}
+		$this->returnAjaxMsg(0,'',$schoolInfo); 
 	}//
 	//设置用户启用状态 2016-04-17
 	public function setUserStatus(){

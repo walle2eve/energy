@@ -88,10 +88,16 @@ class MainAction extends Action {
 		// 单价标准 2016-05-05
 		$std = M('std')->field('std_id,std_name,min_price,max_price,price_unit')->select();
 		//print_r($std);
+	
 		foreach($std as $row){
 			$std_arr[$row['std_id']] = $row;
 		}
 		$this->assign('std',json_encode($std_arr));
+		
+		// 年份
+		$yearSelect = getYearOption();
+		$this->assign('yearSelect',$yearSelect);
+		// 区县
 		$selectTown = D('Town')->getTownSelect();
 		$this->assign('townSelect',$selectTown);
 		$this->display();
@@ -392,6 +398,24 @@ class MainAction extends Action {
 		}
 		$this->assign('std',json_encode($std_arr));
 		
+		// 年份
+		$yearSelect = getYearOption($info['year']);
+		$this->assign('yearSelect',$yearSelect);
+		// 季度或者半年度下拉菜单
+		$schoolInfo = D('School')->getSchoolOtherInfo($info['school_id']);
+		if(empty($schoolInfo))$this->showStatus('学校错误');//
+		if(substr($schoolInfo['school_type'],0,4) == '2011' || substr($schoolInfo['school_type'],0,4) == '2012' || $schoolInfo['school_type'] < 2010){//高校，市教委直属直管单位按照季度上报
+			$schoolInfo['quarterSelect'] = "<option value=''>请选择季度</option>";
+			for($i=1;$i<=4;$i++){
+				$schoolInfo['quarterSelect'] .= "<option value=".$i." ".($info['quarter'] == $i ? 'selected' : '').">第".$i."季度</option>";
+			}
+		}else{
+			$schoolInfo['quarterSelect'] = "<option value=''>请选择半年度</option>";
+			for($i=1;$i<=2;$i++){
+				$schoolInfo['quarterSelect'] .= "<option value=".$i." ".($info['quarter'] == $i ? 'selected' : '').">". ($i == 2 ? '下' : '上') ."半年</option>";
+			}
+		}
+		$this->assign('quarterSelect',$schoolInfo['quarterSelect']);
 		$this->assign('ac','edit');
 		$this->display('Main:addInfo');	
 	}

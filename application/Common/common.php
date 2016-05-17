@@ -81,6 +81,15 @@
 		}
  }
 
+ function getYearOption($chooseYear=0){
+	$selectYear = "";
+	for($year=2008;$year<=date("Y");$year++){
+		$selectYear .= "<option value='".$year."' ".($year==$chooseYear?'selected':'').">";
+		$selectYear .= $year."年";
+		$selectYear .= "</option>";
+	}
+	return $selectYear;
+ }
 
 /**
  * 判断浏览器名称和版本
