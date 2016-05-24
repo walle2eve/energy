@@ -26,6 +26,6 @@ return array(
 	'PAGE_LISTROWS'         => 10,					// 分页每页显示记录数
 
 	/* 系统设置 */
-	'SITE_SUBJECT' => '北京市教育系统节能减排应用平台',
+	'SITE_SUBJECT' 			=> '北京市教育系统节能减排应用平台',
 );
 ?>
