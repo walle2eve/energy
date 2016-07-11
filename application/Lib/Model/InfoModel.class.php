@@ -2,7 +2,7 @@
 class InfoModel extends Model{
 	public function addInfo($data){
 		$errors = array();
-		print_r($data);exit();
+
 		//$add_time = $data['add_time'];
 		$data['add_time'] = date('Y-m-d');
 		//$year = date('Y',strtotime($add_time));
@@ -401,7 +401,7 @@ class InfoModel extends Model{
 		$quarter = isset($map['quarter'])?$map['quarter']:0;
 
 		//高校、市教委指数直管单位季度上报，其他半年度上报
-		if($town_id == '110000' || $town_id == '110100' || substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012' || $school_type < 2010){
+		if($town_id == '110000' || $town_id == '110100' || substr($school_type,0,4) == '2011' || substr($school_type,0,4) == '2012' || ($school_type < 2010 && $school_type > 0)){
 			$yeartype = 'jidu';
 		}else{
 			$yeartype = 'bannian';
@@ -432,7 +432,7 @@ class InfoModel extends Model{
 		$list = $this->field("year,quarter")->where($where)->group('year,quarter')->select();
 		foreach($list as $k=>$row){
 			$selectstr .= "<option value='".$row['year']."_".$row['quarter']."' ".($row['year']==$year&&$row['quarter']==$quarter?'selected':'').">";
-			$selectstr .= $yeartype=='jidu'?$row['year']."年第".$row['quarter']."季度":$row['year']."年".(($row['quarter']==2)?'下':'上')."半年";
+			$selectstr .= $yeartype=='jidu' ? $row['year']."年第".$row['quarter']."季度" : $row['year']."年".(($row['quarter']==2) ? '下' : '上') . "半年";
 			$selectstr .= "</option>";
 		}
 		//echo M()->getlastsql();

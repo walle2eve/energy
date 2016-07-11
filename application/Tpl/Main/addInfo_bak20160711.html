@@ -4,7 +4,10 @@
 
 <script>
 $(function(){
-
+	var std = {$std};
+	var qujian;
+	var min_error = "输入的单价小于系统设定的单价";
+	var max_error = "输入的单价大于系统设定的单价";
 	//console.log(std[101010].price_unit);
 	$("input").numeral();
 	//$('#addtime').calendar({ format:'yyyy-MM-dd HH:mm:ss' });
@@ -51,7 +54,54 @@ $(function(){
 		}
 		
 		if(is_error >0){layer.alert('所有选项都不能为空',{icon:2});return false;}
+		/***
+		$.each(std,function(i,index){
+			
+			var std_money_id = parseInt(index.std_id) + 1;
+			qujian = index.min_price + '-' + index.max_price + index.price_unit;
+			var info_price = parseFloat($('#info_price_' + index.std_id).val());
+			var info_total = parseFloat($('#info_' + index.std_id).val());
+			var info_money = parseFloat($('#info_' + std_money_id).val());
+			var base_price = parseFloat(Number(info_money/info_total).toFixed(2));
+			if(base_price){
+				$('#base_price_' + index.std_id).val(base_price);
+			}
 
+			if(info_price > index.max_price && info_total != 0){
+				price_errors.push( "{\"std_id\":\""+ index.std_id +"\",\"name\":\""+ index.std_name + "\",\"error\":\""+ max_error + qujian + "\"}");
+			}else if(info_price < index.min_price && info_total != 0){
+				price_errors.push( "{\"std_id\":\""+ index.std_id +"\",\"name\":\""+ index.std_name +"\",\"error\":\""+ min_error + qujian + "\"}");
+			}
+		});
+		
+	
+		//console.log('水单价【用户填写】：' + info_price_101012);
+		//console.log('水单价【系统设定】：' + std[101012].max_price);
+		//console.log('水单价【系统计算】：' + price_101012);
+		
+		if(price_errors.length > 0){
+			var data = '';
+			var errors = '';
+			$.each(price_errors,function(i,index){
+				obj = eval("("+index+")");
+				errors += "能源：<font color='red'>" + obj.name + "</font>，错误信息：" + obj.error + "<br />";
+				data += "name:"+obj.name+",std_id:"+obj.std_id+",error:"+obj.error+"||";
+			});
+			layer.confirm('数据输入有误，您确定要继续提交吗？<br />'+errors,{
+				btn:['确定','取消']
+			},function(){
+				$('#price_errors').val(data);
+			//	console.log($('#price_errors').val());
+				$('form').submit();
+				return true;
+			},function(){
+				layer.close();
+				//return false;
+			});
+		}else{
+			$('form').submit();
+		}
+		**/
 		$('form').submit();
 		return false;
 	});

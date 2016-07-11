@@ -26,7 +26,7 @@ class SchoolModel extends Model{
 		$limit  = $p->firstRow.','.$p->listRows;
 		
 		$list = $this->query("SELECT s.town_id,town.town_name,s.school_code,s.school_name,dict.type_name AS school_type_name,COUNT(i.school_id) AS countid,i.add_time,i.year,i.quarter,u.link_man,u.link_phone FROM energy_school s LEFT JOIN  energy_info i ON i.school_id = s.school_id AND i.`year` = %d AND i.`quarter` = %d  left Join energy_user u ON u.org_id = s.school_id LEFT JOIN energy_school_type dict ON dict.type_id = s.school_type LEFT JOIN  energy_town town ON town.town_id = s.town_id WHERE s.town_id = %d AND s.is_del = 0 GROUP BY s.school_id " .$having. " ORDER BY s.orderby LIMIT ".$limit,array($year,$quarter,$town_id));
-		
+		//echo M()->getlastsql();
 		return array('page'=>$page,'list'=>$list);
 	}
 	/**
