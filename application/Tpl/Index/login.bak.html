@@ -12,16 +12,11 @@
 <script type="text/javascript">
 $(document).ready(function (){
 	var num = 0;
-	$('#pass').focus(function (){
-		//return false;
+	$('#user').focus(function (){
+		return false;
 		if(num == 0){
-    layer.tips('如您在登陆系统时，发现密码错误，请发邮件到jnjp2016@163.com申请重置，发邮件时请写明单位名称！', '#user', {
-        style: ['background-color:#78BA32; color:#fff', '#78BA32'],
-        maxWidth:200,
-        time: 10,
-        closeBtn:[0, true]
-    });
-		//num = 1;
+		layer.alert('由于7月16日系统升级，用户密码被重置为初始密码，请您使用初始密码登录后及时修改密码。若已修改，请忽略本提示。由此给您造成的不便敬请谅解！',2);
+		num = 1;
 		}
 	});
 });
