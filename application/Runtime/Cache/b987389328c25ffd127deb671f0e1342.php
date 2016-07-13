@@ -1,0 +1,434 @@
+<?php if (!defined('THINK_PATH')) exit();?><HTML><HEAD>
+<META http-equiv='Content-Type content="text/html; charset=utf-8"'>
+<LINK href="__PUBLIC__/css/admin.css" type="text/css" rel="stylesheet">
+<LINK href="__PUBLIC__/css/select2.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="__PUBLIC__/js/lhgcalendar/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/lhgcalendar/lhgcalendar.min.js"></script>
+<script src="__PUBLIC__/js/select2.min.js"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/number.js"></script>
+<script src="__PUBLIC__/js/jquery.form.js"></script>
+<style>
+.right1{ font-size:14px; color:#000000; font-weight:bold; line-height:180%;}
+.right2{ font-size:14px; color:#43860C; font-weight:bold; line-height:180%;}
+.right3{font-size:14px;}
+.right22 td{line-height:180%;}
+img{ cursor:pointer; }
+</style>
+
+<title>能源消耗数据汇总-<?php echo C('SITE_SUBJECT');?></title>
+
+</HEAD>
+<BODY>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0 style="border:1px #9AD452 solid; background-color:##F3FFE3; margin-left:0px; "  height=100%>
+  <TR>
+    <TD valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="62" style="background-image:url(__PUBLIC__/images/right-bj.gif)"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="28"><img src="__PUBLIC__/images/right0.gif" width="16" height="13"></td>
+            <td style="color:#43860C; font-size:16px; font-weight:bold;">能源消耗数据查看</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="480" valign="top" bgcolor="#F3FFE3"><table width="94%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px;">
+          <tr>
+            <td height="16" bgcolor="#FFFFFF">&nbsp;
+            </td>
+          </tr>
+        </table>
+          <table width="94%" border="0" align="center" cellpadding="0" cellspacing="0"  style="font-size:14px;">
+            <tr>
+              <td align="left" bgcolor="#FFFFFF"><table width="880" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0"  style="font-size:14px;">
+					<form name="" action="" method="get">
+                    <tr>
+                      <td width="110" rowspan="2" align="left"><img src="__PUBLIC__/images/new1.gif" width="73" height="66"></td>
+                      <td>区县单位：<select name="town"><?php echo ($townList); ?></select></td>
+					  <td>办学类型：<select name="schoolType"><option value="">全部</option><?php if(is_array($schoolTypes)): $i = 0; $__LIST__ = $schoolTypes;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["dict_id"]); ?>" <?php if(($schoolType) == $vo[dict_id]): ?>selected="selected"<?php endif; ?>><?php echo ($vo["dict_name"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?></select></td>
+                      <td>年度：<select name="year"><?php if(is_array($years)): $i = 0; $__LIST__ = $years;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["year"]); ?>" <?php if(($year) == $vo[year]): ?>selected="selected"<?php endif; ?>><?php echo ($vo["year"]); ?>年</option><?php endforeach; endif; else: echo "" ;endif; ?></select><input type="submit" value="提交查询"/></td>
+                    </tr>
+					</form>
+					
+                    <tr>
+
+                      <td>单位名称：<strong><?php echo ($info["town_name"]); ?></strong></td>
+                      <td>数据时段：<?php echo ($info["yearStr"]); ?></td>
+                      <td>办学类型：<?php echo ($info["school_type_name"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr>
+				<?php if(($showInfos) == "1"): ?><tr>
+                  <td align="center"><table width="98%" border="0" cellspacing="0" cellpadding="0"  style="font-size:14px;">
+                    <tr>
+                      <td width="29" height="33">&nbsp;</td>
+                      <td width="267">用能教师数（人）：<?php echo ($info["info_101002"]); ?></td>
+                      <td width="225">其中编制人数（人）：<?php echo ($info["info_101004"]); ?></td>
+                      <td width="285">用能学生数（人）：<?php echo ($info["info_101003"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="33">&nbsp;</td>
+                      <td>建筑面积（万平方米）：<?php echo ($info["info_101001"]); ?></td>
+                      <td>供暖面积（万平方米）：<?php echo ($info["info_101038"]); ?></td>
+                      <td  style="font-size:12px; color:#666666;">注：建筑面积和供暖面积均不包含教师住宅的住宅面积</td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" style=" border-bottom:1px dotted #4B8303; border-top:1px dotted #4B8303;">
+                    <tr>
+                      <td height="40"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="80"><img src="__PUBLIC__/images/new2.gif" width="61" height="39"></td>
+                          <td align="left" style="font-size:14px;">公车数量（辆）：<?php echo ($info["info_101005"]); ?>，其中编制数量（辆）：<?php echo ($info["info_101006"]); ?>，汽油车数量（辆）：<?php echo ($info["info_101007"]); ?>，柴油车数量（辆）：<?php echo ($info["info_101008"]); ?>，新能源车数量（辆）：<?php echo ($info["info_101009"]); ?></td>
+                        </tr>
+                      </table></td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="40" align="center"  style="color:#43860C; font-size:16px; font-weight:bold;">单位能耗情况概况</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" cellspacing="1" cellpadding="0" style="background-color:#B3D08F; font-size:14px;">
+                    <tr>
+                      <td width="110" height="30" align="center" bgcolor="#D8F2B8"><strong>项目</strong></td>
+                      <td width="75" align="center" bgcolor="#D8F2B8"><strong>电量</strong></td>
+                      <td width="70" align="center" bgcolor="#D8F2B8"><strong>水</strong></td>
+                      <td width="74" align="center" bgcolor="#D8F2B8"><strong>煤</strong></td>
+                      <td width="96" align="center" bgcolor="#D8F2B8"><strong>液化石油气</strong></td>
+                      <td width="85" align="center" bgcolor="#D8F2B8"><strong>天然气</strong></td>
+                      <td width="85" align="center" bgcolor="#D8F2B8"><strong>热力</strong></td>
+                      <td width="85" align="center" bgcolor="#D8F2B8"><strong>汽油</strong></td>
+                      <td width="85" align="center" bgcolor="#D8F2B8"><strong>柴油</strong></td>
+                      <td width="86" align="center" bgcolor="#D8F2B8"><strong>煤油</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">计量单位</td>
+                      <td align="center" bgcolor="#FFFFFF">万千瓦时</td>
+                      <td align="center" bgcolor="#FFFFFF">万吨</td>
+                      <td align="center" bgcolor="#FFFFFF">万吨</td>
+                      <td align="center" bgcolor="#FFFFFF">吨</td>
+                      <td align="center" bgcolor="#FFFFFF">万立方米</td>
+                      <td align="center" bgcolor="#FFFFFF">万千焦耳</td>
+                      <td align="center" bgcolor="#FFFFFF">万升</td>
+                      <td align="center" bgcolor="#FFFFFF">万升</td>
+                      <td align="center" bgcolor="#FFFFFF">万升</td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">使用总量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101012"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101014"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101034"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">折标煤数（吨）</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101034"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">生均用量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101012"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101014"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101034"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">面均用量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101012"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101014"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101034"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="60" align="center"><span style="color:#43860C; font-size:16px; font-weight:bold;">单位能耗情况详细数据</span></td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="30%" height="30" align="center" bgcolor="#E7E7E7"><strong>1、用电情况</strong></td>
+                      <td width="140" align="center" bgcolor="#E7E7E7"><strong>数量（万千瓦时）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>折标煤数</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">总用电量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101011"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101010"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101010"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">市电用电量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101044"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101045"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101044"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101044"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101044"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">机房用电量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101042"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101043"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101042"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101042"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101042"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">太阳能、水力、风力等发电量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101046"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101047"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101046"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="20" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="257" height="30" align="center" bgcolor="#E7E7E7"><strong>2、用水情况</strong></td>
+                      <td width="137" align="center" bgcolor="#E7E7E7"><strong>数量（万吨）</strong></td>
+                      <td width="117" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="176" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="169" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">总用水量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101012"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101013"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101012"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101012"]); ?></td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">其中中水消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101048"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101049"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101048"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101048"]); ?></td>
+                      </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="20" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="258" height="30" align="center" bgcolor="#E7E7E7"><strong>3、用煤情况</strong></td>
+                      <td width="134" align="center" bgcolor="#E7E7E7"><strong>数量（万吨）</strong></td>
+                      <td width="118" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="178" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="168" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">用量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101014"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101015"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101014"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101014"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="20" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="30%" height="30" align="center" bgcolor="#E7E7E7"><strong>4、用气情况</strong></td>
+                      <td width="140" align="center" bgcolor="#E7E7E7"><strong>数量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>折标煤数</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">4.1液化石油气用量（吨）</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101019"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101018"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101018"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">4.2天然气用量（万立方米）</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101017"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101016"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101016"]); ?></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">4.3人工煤气用量（万升）</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101020"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101021"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101020"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101020"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="20" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="30%" height="30" align="center" bgcolor="#E7E7E7"><strong>5、用油情况</strong></td>
+                      <td width="140" align="center" bgcolor="#E7E7E7"><strong>数量（万升）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>折标煤数</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">5.1汽油消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101023"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101022"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101022"]); ?></td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">|-其中车辆用油</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101024"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101025"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF"> &nbsp;&nbsp;&nbsp;|-其他用油</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101026"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101027"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">5.2柴油消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101029"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101028"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101028"]); ?></td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">|-其中车辆用油</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101030"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101031"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">&nbsp;&nbsp;&nbsp;|-其他用油</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101032"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101033"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      <td align="center" bgcolor="#FFFFFF">----</td>
+                      </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">5.3煤油消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101034"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101035"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101034"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101034"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101034"]); ?></td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td height="20" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="30%" height="30" align="center" bgcolor="#E7E7E7"><strong>6、热力消耗</strong></td>
+                      <td width="140" align="center" bgcolor="#E7E7E7"><strong>数量（百万千焦耳）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>折标煤数</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">热力消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101037"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["zb_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101036"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101036"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr>
+                <tr>
+                  <td height="30" align="center">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="center"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="1" style="background-color:#CCCCCC; font-size:14px;">
+                    <tr>
+                      <td width="30%" height="30" align="center" bgcolor="#E7E7E7"><strong>7、其他能源消耗量</strong></td>
+                      <td width="140" align="center" bgcolor="#E7E7E7"><strong>数量（吨标准煤）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>费用（万元）</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>折标煤数</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>生均用量</strong></td>
+                      <td width="120" align="center" bgcolor="#E7E7E7"><strong>面均用量</strong></td>
+                    </tr>
+                    <tr>
+                      <td height="30" align="center" bgcolor="#FFFFFF">其他能源消耗量</td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101040"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101041"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["info_101040"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgs_101040"]); ?></td>
+                      <td align="center" bgcolor="#FFFFFF"><?php echo ($info["avgm_101040"]); ?></td>
+                    </tr>
+                  </table></td>
+                </tr><?php endif; ?>
+                <tr>
+                  <td align="center">&nbsp;</td>
+                </tr>
+                </table></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table></TD></TR>
+  
+	<tr><td align="center"><img src="__PUBLIC__/images/close.gif" width="100" height="29" onclick="javascript:location.href='<?php echo ($referUrl); ?>';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="__PUBLIC__/images/daochu.gif" width="100" height="29" onclick="javascript:location.href='<?php echo U('Main/collect',array('viewType'=>'downInfo','town_id'=>$town_id,'year'=>$year,'schoolType'=>$schoolType));?>';"></td></tr>
+	<TR>
+    <TD bgColor=#b1ceef height=1></TD></TR>
+</TABLE></BODY></HTML>

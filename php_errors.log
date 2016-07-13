@@ -1,0 +1,39 @@
+[30-Mar-2014 23:58:14 PRC] PHP Fatal error:  Call to a member function index_main() on a non-object in D:\www\energy\application\Lib\Action\IndexAction.class.php on line 34
+[31-Mar-2014 00:00:06 PRC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in D:\www\energy\application\Lib\Action\MainAction.class.php on line 5
+[02-Apr-2014 23:10:44 PRC] PHP Parse error:  syntax error, unexpected '{' in D:\www\energy\application\Lib\Model\TownModel.class.php on line 33
+[12-Apr-2014 16:44:54 PRC] PHP Parse error:  syntax error, unexpected '}', expecting '(' in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 39
+[12-Apr-2014 16:44:56 PRC] PHP Parse error:  syntax error, unexpected '}', expecting '(' in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 39
+[12-Apr-2014 16:44:56 PRC] PHP Parse error:  syntax error, unexpected '}', expecting '(' in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 39
+[12-Apr-2014 17:07:06 PRC] PHP Parse error:  syntax error, unexpected '{' in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 61
+[12-Apr-2014 17:46:01 PRC] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 30
+[13-Apr-2014 01:07:52 PRC] PHP Fatal error:  Call to a member function display() on a non-object in D:\www\energy\application\Lib\Action\MainAction.class.php on line 148
+[22-Apr-2014 01:29:07 PRC] PHP Parse error:  syntax error, unexpected ')' in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 131
+[22-Apr-2014 01:56:09 PRC] PHP Parse error:  syntax error, unexpected ')', expecting variable (T_VARIABLE) or '$' in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 24
+[22-Apr-2014 01:56:19 PRC] PHP Parse error:  syntax error, unexpected ')', expecting variable (T_VARIABLE) or '$' in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 24
+[22-Apr-2014 01:56:36 PRC] PHP Parse error:  syntax error, unexpected ')', expecting variable (T_VARIABLE) or '$' in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 24
+[22-Apr-2014 01:57:27 PRC] PHP Parse error:  syntax error, unexpected ')', expecting variable (T_VARIABLE) or '$' in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 24
+[22-Apr-2014 02:00:16 PRC] PHP Parse error:  syntax error, unexpected '" ;endif; ?>' (T_CONSTANT_ENCAPSED_STRING), expecting ']' in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 62
+[22-Apr-2014 02:16:15 PRC] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 25
+[22-Apr-2014 02:16:47 PRC] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in D:\www\energy\application\Runtime\Cache\304357700385cf486d785fcdf998cd1a.php on line 25
+[27-Apr-2014 15:54:20 PRC] PHP Parse error:  syntax error, unexpected 'session' (T_STRING) in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 203
+[28-Apr-2014 01:43:52 PRC] PHP Fatal error:  Call to undefined function getStandardByinfo() in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 280
+[28-Apr-2014 02:13:46 PRC] PHP Parse error:  syntax error, unexpected 'cookie' (T_STRING) in D:\www\energy\application\Lib\Action\MainAction.class.php on line 349
+[07-May-2014 00:43:18 PRC] PHP Parse error:  syntax error, unexpected 'setUserPass' (T_STRING), expecting variable (T_VARIABLE) in D:\www\energy\application\Lib\Action\MainAction.class.php on line 471
+[08-May-2014 22:27:41 PRC] PHP Parse error:  syntax error, unexpected 'return' (T_RETURN), expecting function (T_FUNCTION) in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 198
+[25-May-2014 23:22:03 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:22:04 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:22:49 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:24:15 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:24:42 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:24:43 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:24:44 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[25-May-2014 23:24:45 PRC] PHP Parse error:  syntax error, unexpected '<case value="110000">', expecting endswitch (T_ENDSWITCH) or case (T_CASE) or default (T_DEFAULT) in D:\www\energy\application\Runtime\Cache\967e95f868abcb4ad9075020106c7a01.php on line 53
+[04-Jul-2014 23:10:07 PRC] PHP Parse error:  syntax error, unexpected '}' in D:\www\energy\application\Lib\Action\MainAction.class.php on line 211
+[04-Jul-2014 23:10:14 PRC] PHP Fatal error:  Call to undefined function getSchoolOtherInfo() in D:\www\energy\application\Lib\Action\MainAction.class.php on line 210
+[24-Jul-2014 22:10:11 PRC] PHP Fatal error:  Call to undefined function file_get_content() in D:\www\energy\application\Lib\Action\MainAction.class.php on line 168
+[02-Sep-2014 20:03:15 PRC] PHP Parse error:  syntax error, unexpected ')' in D:\www\energy\application\Runtime\Cache\eea2c122e507708a71b8d520a75ad586.php on line 38
+[02-Sep-2014 20:03:25 PRC] PHP Parse error:  syntax error, unexpected ')' in D:\www\energy\application\Runtime\Cache\eea2c122e507708a71b8d520a75ad586.php on line 38
+[09-Sep-2014 21:34:01 PRC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in D:\www\energy\application\Lib\Model\InfoModel.class.php on line 320
+[05-Feb-2015 21:48:44 PRC] PHP Fatal error:  Cannot redeclare Page::$config in D:\www\energy\ThinkPHP\Extend\Library\ORG\Util\Page.class.php on line 33
+[23-Jul-2015 23:08:17 PRC] PHP Parse error:  syntax error, unexpected 'getHighSchoolData' (T_STRING), expecting variable (T_VARIABLE) in D:\www\energy\application\Lib\Action\TestAction.class.php on line 12
+[23-Jul-2015 23:15:05 PRC] PHP Parse error:  syntax error, unexpected ')', expecting '(' in D:\www\energy\application\Lib\Action\TestAction.class.php on line 19
